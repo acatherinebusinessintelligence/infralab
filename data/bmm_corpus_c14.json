@@ -1,0 +1,92 @@
+[
+  {
+    "case_id": "C14",
+    "chunk_id": "C14-001",
+    "section": "Contexto de negocio",
+    "page": 1,
+    "topic": "business_context",
+    "text": "El caso Holding con gobierno TI debil representa un grupo corporativo con varias filiales, herramientas duplicadas, proveedores multiples y decisiones de infraestructura poco coordinadas. El negocio depende de estandarizacion corporativa, control de costos, gobierno TI y sinergia entre filiales.",
+    "tags": ["holding", "gobierno ti", "filiales", "estandarizacion", "control de costos"]
+  },
+  {
+    "case_id": "C14",
+    "chunk_id": "C14-002",
+    "section": "Usuarios y actores",
+    "page": 1,
+    "topic": "users",
+    "text": "Los actores afectados se relacionan con filiales, proveedores multiples, mesa de ayuda, correo corporativo y BI corporativo. La duplicidad de herramientas y responsabilidades poco claras fragmentan soporte y decisiones de inversion.",
+    "tags": ["usuarios", "filiales", "proveedores", "mesa de ayuda", "correo corporativo", "bi corporativo"]
+  },
+  {
+    "case_id": "C14",
+    "chunk_id": "C14-003",
+    "section": "Servicios criticos",
+    "page": 2,
+    "topic": "critical_services",
+    "text": "Los servicios sugeridos del caso son ERP corporativo, correo corporativo, gestion documental, mesa de ayuda y BI corporativo. Estos servicios sostienen coordinacion entre filiales y gobierno corporativo.",
+    "tags": ["servicios criticos", "erp corporativo", "correo corporativo", "gestion documental", "mesa de ayuda", "bi corporativo"]
+  },
+  {
+    "case_id": "C14",
+    "chunk_id": "C14-004",
+    "section": "Infraestructura",
+    "page": 3,
+    "topic": "infrastructure",
+    "text": "Los componentes sugeridos incluyen servicios cloud, servidores, red WAN, directorio activo, base de datos, monitoreo y backup. Las arquitecturas compatibles son hibrida, cloud y on premise.",
+    "tags": ["infraestructura", "servicios cloud", "servidores", "red wan", "directorio activo", "base de datos"]
+  },
+  {
+    "case_id": "C14",
+    "chunk_id": "C14-005",
+    "section": "Dependencias",
+    "page": 4,
+    "topic": "dependencies",
+    "text": "El caso define dependencias entre ERP corporativo y proveedores multiples, entre BI corporativo y bases de datos de filiales, entre mesa de ayuda y herramientas duplicadas, y entre correo corporativo y directorio activo.",
+    "tags": ["dependencias", "erp corporativo", "proveedores multiples", "bi corporativo", "filiales", "directorio activo"]
+  },
+  {
+    "case_id": "C14",
+    "chunk_id": "C14-006",
+    "section": "Riesgos",
+    "page": 5,
+    "topic": "risks",
+    "text": "Los patrones de riesgo incluyen herramientas duplicadas, responsabilidades poco claras, multiples proveedores y pocos SLA corporativos.",
+    "tags": ["riesgos", "herramientas duplicadas", "responsabilidades", "proveedores", "sla corporativos"]
+  },
+  {
+    "case_id": "C14",
+    "chunk_id": "C14-007",
+    "section": "Incidentes",
+    "page": 6,
+    "topic": "incidents",
+    "text": "Los patrones de incidente incluyen soporte fragmentado, reportes incompatibles, costos duplicados y decisiones de inversion inconsistentes.",
+    "tags": ["incidentes", "soporte fragmentado", "reportes incompatibles", "costos duplicados", "inversion"]
+  },
+  {
+    "case_id": "C14",
+    "chunk_id": "C14-008",
+    "section": "Metricas",
+    "page": 7,
+    "topic": "metrics",
+    "text": "Los dominios metricos relevantes son disponibilidad, capacidad, utilizacion, MTTR y almacenamiento. La evidencia disponible es parcial para disponibilidad, incidentes, timestamps, capacidad y backup; latencia esta faltante.",
+    "tags": ["metricas", "disponibilidad", "capacidad", "utilizacion", "mttr", "almacenamiento"]
+  },
+  {
+    "case_id": "C14",
+    "chunk_id": "C14-009",
+    "section": "Gobierno corporativo",
+    "page": 8,
+    "topic": "governance",
+    "text": "Los patrones de gobierno incluyen COBIT para gobierno corporativo, modelo RACI, catalogo de servicios y gestion de proveedores. Estas practicas ayudan a clarificar responsabilidades y coordinar decisiones entre filiales.",
+    "tags": ["gobierno", "cobit", "raci", "catalogo de servicios", "gestion de proveedores", "filiales"]
+  },
+  {
+    "case_id": "C14",
+    "chunk_id": "C14-010",
+    "section": "Condiciones y puntos unicos de falla",
+    "page": 9,
+    "topic": "conditions",
+    "text": "Las condiciones especiales son falta de gobierno, aumento de costos y dependencia de proveedor. Los patrones de punto unico de falla incluyen dependencia de servicio central, instancia unica de autenticacion y enlace WAN unico.",
+    "tags": ["falta de gobierno", "aumento costos", "dependencia proveedor", "servicio central", "autenticacion", "wan"]
+  }
+]

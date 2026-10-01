@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>InfraLab · Panel administrativo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/admin/admin.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand"><span class="mark">IL</span> InfraLab <b>Panel administrativo</b></div>
+    <div class="top-r" id="top-r" hidden><span id="who" class="muted"></span><button class="btn ghost sm" id="logout">Salir</button></div>
+  </header>
+
+  <section class="login card" id="login">
+    <h2>Panel administrativo</h2>
+    <p class="muted">Equipos, códigos de acceso y seguimiento de los estudiantes.</p>
+    <label>Contraseña<input type="password" id="pwd" autocomplete="current-password"></label>
+    <button class="btn" id="enter">Entrar</button>
+    <p class="msg" id="login-msg"></p>
+  </section>
+
+  <main id="app" hidden>
+    <nav class="tabs" id="tabs">
+      <button data-tab="seg" class="on">Seguimiento</button>
+      <button data-tab="eq">Equipos y códigos</button>
+      <button data-tab="imp">Importar CSV</button>
+      <button data-tab="per">Periodos y NRC</button>
+      <button data-tab="tut">Tutor IA</button>
+    </nav>
+    <div class="filters" id="filters">
+      <label>Periodo<select id="f-period"></select></label>
+      <label>NRC<select id="f-nrc"><option value="">Todos</option></select></label>
+      <label>Estado<select id="f-active"><option value="1">Activos</option><option value="">Todos</option><option value="0">Retirados</option></select></label>
+      <label class="grow">Buscar<input type="search" id="f-q" placeholder="Equipo, código, nombre o correo"></label>
+    </div>
+    <section id="tab-seg" class="tab"></section>
+    <section id="tab-eq" class="tab" hidden></section>
+    <section id="tab-imp" class="tab" hidden></section>
+    <section id="tab-per" class="tab" hidden></section>
+    <section id="tab-tut" class="tab" hidden></section>
+  </main>
+
+  <div class="modal" id="modal" hidden><div class="modal-bg" data-close></div><div class="modal-card"><button class="x" data-close>✕</button><div id="modal-body"></div></div></div>
+  <div class="toast" id="toast" hidden></div>
+  <script src="/admin/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,110 @@
+[
+  {
+    "case_id": "C01",
+    "chunk_id": "C01-001",
+    "section": "Contexto de negocio",
+    "page": 1,
+    "topic": "business_context",
+    "text": "MedNova IPS es una institucion prestadora de salud de mediana complejidad con una sede principal y dos sedes ambulatorias. Atiende cerca de 1800 pacientes diarios y opera servicios clinicos como urgencias 24/7, hospitalizacion, consulta externa, laboratorio clinico, imagenes diagnosticas, farmacia, facturacion y portal de citas.",
+    "tags": ["salud", "ips", "urgencias", "pacientes", "operacion clinica"]
+  },
+  {
+    "case_id": "C01",
+    "chunk_id": "C01-002",
+    "section": "Usuarios y actores",
+    "page": 1,
+    "topic": "users",
+    "text": "Los actores principales son medicos, personal de enfermeria, laboratorio, radiologia, farmacia, administracion, pacientes y sedes ambulatorias. La organizacion cuenta con 420 empleados, incluyendo 95 medicos, 160 personas de enfermeria, 55 administrativos y 110 operativos asistenciales.",
+    "tags": ["medicos", "enfermeria", "pacientes", "sedes", "actores"]
+  },
+  {
+    "case_id": "C01",
+    "chunk_id": "C01-003",
+    "section": "Servicios criticos",
+    "page": 2,
+    "topic": "critical_services",
+    "text": "La Historia Clinica Electronica es un servicio critico usado por medicos y enfermeria en operacion 24/7. Tambien son relevantes el sistema de laboratorio, imagenes diagnosticas, farmacia, facturacion, portal de citas, Active Directory, correo, archivos compartidos y acceso a Internet.",
+    "tags": ["hce", "historia clinica", "laboratorio", "farmacia", "active directory"]
+  },
+  {
+    "case_id": "C01",
+    "chunk_id": "C01-004",
+    "section": "Infraestructura actual",
+    "page": 3,
+    "topic": "infrastructure",
+    "text": "La infraestructura incluye APP-SRV01 para Historia Clinica y servicios web internos, DB-SRV01 para bases clinicas, farmacia y facturacion, FILE-SRV01 para archivos administrativos y AD-SRV01 para Directorio Activo y DNS. La arquitectura tecnologica no esta formalmente documentada y ha crecido de forma reactiva.",
+    "tags": ["app-srv01", "db-srv01", "ad-srv01", "servidores", "crecimiento reactivo"]
+  },
+  {
+    "case_id": "C01",
+    "chunk_id": "C01-005",
+    "section": "Dependencias",
+    "page": 4,
+    "topic": "dependencies",
+    "text": "APP-SRV01 concentra Historia Clinica y varios servicios web internos. DB-SRV01 es base de datos central para HCE, farmacia y facturacion. AD-SRV01 es el unico controlador de dominio. Las sedes ambulatorias dependen de Internet y VPN hacia la sede principal para acceder a la HCE.",
+    "tags": ["dependencias", "base de datos", "directorio activo", "vpn", "sedes ambulatorias"]
+  },
+  {
+    "case_id": "C01",
+    "chunk_id": "C01-006",
+    "section": "Metricas de disponibilidad",
+    "page": 5,
+    "topic": "metrics",
+    "text": "En una ventana de 720 horas, la HCE tuvo 15.8 horas fuera de servicio, 9 incidentes y 36 horas totales de recuperacion. La disponibilidad calculada fue 97.81%, el MTTR fue de 4 horas y el MTBF estimado fue de 78.24 horas.",
+    "tags": ["disponibilidad", "hce", "mttr", "mtbf", "incidentes"]
+  },
+  {
+    "case_id": "C01",
+    "chunk_id": "C01-007",
+    "section": "Capacidad y rendimiento",
+    "page": 6,
+    "topic": "capacity_performance",
+    "text": "APP-SRV01 reporta CPU promedio de 84%, picos de 97% y RAM promedio de 91%. DB-SRV01 tiene 82% de uso de almacenamiento, crecimiento mensual de 4.5%, latencia promedio de 170 ms y picos de 480 ms entre 8:00 y 11:00 a.m.",
+    "tags": ["capacidad", "cpu", "ram", "latencia", "almacenamiento"]
+  },
+  {
+    "case_id": "C01",
+    "chunk_id": "C01-008",
+    "section": "Continuidad y backup",
+    "page": 7,
+    "topic": "continuity_backup",
+    "text": "Los respaldos estan en el mismo NAS que produccion, sin copia externa, sin pruebas de restauracion documentadas y sin politica formal de retencion. Un fallo de tarea de backup no fue detectado durante 7 dias consecutivos.",
+    "tags": ["backup", "nas", "continuidad", "restauracion", "retencion"]
+  },
+  {
+    "case_id": "C01",
+    "chunk_id": "C01-009",
+    "section": "Riesgos y SPOF",
+    "page": 8,
+    "topic": "risks_spof",
+    "text": "Los puntos unicos de falla incluyen APP-SRV01, DB-SRV01, AD-SRV01, firewall perimetral, NAS de backup, enlace VPN hacia sedes ambulatorias y el administrador de infraestructura como factor humano asociado a la verificacion de backups.",
+    "tags": ["spof", "riesgos", "firewall", "vpn", "backup"]
+  },
+  {
+    "case_id": "C01",
+    "chunk_id": "C01-010",
+    "section": "Seguridad y gobierno",
+    "page": 9,
+    "topic": "security_governance",
+    "text": "Existen brechas de seguridad como credenciales compartidas, cuentas de exempleados activas, acceso remoto sin MFA, ausencia de revision periodica formal de permisos, falta de segmentacion de red y revision reactiva de logs. Tambien faltan roles dedicados a ciberseguridad, arquitectura, monitoreo, capacidad y continuidad tecnologica.",
+    "tags": ["seguridad", "mfa", "permisos", "segmentacion", "gobierno"]
+  },
+  {
+    "case_id": "C01",
+    "chunk_id": "C01-011",
+    "section": "Restricciones del caso",
+    "page": 10,
+    "topic": "constraints",
+    "text": "La HCE no puede ser reemplazada durante este corte, el presupuesto de TI es limitado, la operacion clinica debe mantenerse sin interrupciones prolongadas, se debe aprovechar parte de la infraestructura actual y cualquier recomendacion de seguridad debe considerar la sensibilidad de la informacion clinica.",
+    "tags": ["restricciones", "hce", "presupuesto", "operacion clinica", "informacion sensible"]
+  },
+  {
+    "case_id": "C01",
+    "chunk_id": "C01-012",
+    "section": "Gobierno TI",
+    "page": 11,
+    "topic": "governance",
+    "text": "Las practicas aplicables incluyen gestion de incidentes para fallas detectadas por usuarios, gestion de problemas para causas raiz de saturacion, gestion de cambios para actualizaciones de HCE sin control formal, gestion de niveles de servicio y monitoreo centralizado con indicadores.",
+    "tags": ["itil", "cobit", "incidentes", "problemas", "cambios"]
+  }
+]

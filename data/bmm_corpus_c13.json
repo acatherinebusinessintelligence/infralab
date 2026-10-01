@@ -1,0 +1,92 @@
+[
+  {
+    "case_id": "C13",
+    "chunk_id": "C13-001",
+    "section": "Contexto de negocio",
+    "page": 1,
+    "topic": "business_context",
+    "text": "El caso Empresa sin linea base de metricas representa una organizacion con infraestructura gestionada de forma operativa, evidencia incompleta y poca trazabilidad sobre desempeno real. El negocio depende de mejorar visibilidad, priorizar inversiones, reducir incertidumbre y formalizar gestion.",
+    "tags": ["servicios empresariales", "metricas", "visibilidad", "inversiones", "gestion"]
+  },
+  {
+    "case_id": "C13",
+    "chunk_id": "C13-002",
+    "section": "Usuarios y actores",
+    "page": 1,
+    "topic": "users",
+    "text": "Los actores afectados se relacionan con correo electronico, ERP, mesa de ayuda, archivos compartidos y red corporativa. La falta de evidencia completa limita decisiones sobre desempeno real y priorizacion de inversiones.",
+    "tags": ["usuarios", "correo electronico", "erp", "mesa de ayuda", "archivos compartidos", "red corporativa"]
+  },
+  {
+    "case_id": "C13",
+    "chunk_id": "C13-003",
+    "section": "Servicios criticos",
+    "page": 2,
+    "topic": "critical_services",
+    "text": "Los servicios sugeridos del caso son correo electronico, ERP, mesa de ayuda, archivos compartidos y red corporativa. Estos servicios sostienen operacion interna y registro inicial de necesidades de soporte.",
+    "tags": ["servicios criticos", "correo electronico", "erp", "mesa de ayuda", "archivos compartidos", "red corporativa"]
+  },
+  {
+    "case_id": "C13",
+    "chunk_id": "C13-004",
+    "section": "Infraestructura",
+    "page": 3,
+    "topic": "infrastructure",
+    "text": "Los componentes sugeridos incluyen servidores, red LAN, firewall, base de datos, backup y monitoreo. Las arquitecturas compatibles son on premise, hibrida y cloud.",
+    "tags": ["infraestructura", "servidores", "red lan", "firewall", "base de datos", "backup", "monitoreo"]
+  },
+  {
+    "case_id": "C13",
+    "chunk_id": "C13-005",
+    "section": "Dependencias",
+    "page": 4,
+    "topic": "dependencies",
+    "text": "El caso define dependencias entre correo electronico y directorio activo, entre ERP y base de datos, entre archivos compartidos y almacenamiento, y entre mesa de ayuda y registro manual.",
+    "tags": ["dependencias", "correo electronico", "directorio activo", "erp", "base de datos", "almacenamiento", "registro manual"]
+  },
+  {
+    "case_id": "C13",
+    "chunk_id": "C13-006",
+    "section": "Riesgos",
+    "page": 5,
+    "topic": "risks",
+    "text": "Los patrones de riesgo incluyen informacion incompleta, ausencia de linea base, monitoreo insuficiente y metricas no calculables con precision.",
+    "tags": ["riesgos", "informacion incompleta", "sin linea base", "monitoreo insuficiente", "metricas"]
+  },
+  {
+    "case_id": "C13",
+    "chunk_id": "C13-007",
+    "section": "Incidentes",
+    "page": 6,
+    "topic": "incidents",
+    "text": "Los patrones de incidente incluyen incidentes sin evidencia completa, tiempos de atencion no registrados, capacidad estimada manualmente y reportes inconsistentes.",
+    "tags": ["incidentes", "evidencia incompleta", "tiempos de atencion", "capacidad estimada", "reportes inconsistentes"]
+  },
+  {
+    "case_id": "C13",
+    "chunk_id": "C13-008",
+    "section": "Metricas",
+    "page": 7,
+    "topic": "metrics",
+    "text": "Los dominios metricos relevantes son disponibilidad, MTTR, capacidad y utilizacion. La evidencia disponible es parcial para disponibilidad, incidentes y backup; timestamps, latencia y capacidad estan faltantes.",
+    "tags": ["metricas", "disponibilidad", "mttr", "capacidad", "utilizacion", "evidencia parcial"]
+  },
+  {
+    "case_id": "C13",
+    "chunk_id": "C13-009",
+    "section": "Gobierno inicial",
+    "page": 8,
+    "topic": "governance",
+    "text": "Los patrones de gobierno incluyen catalogo de servicios inicial, registro de incidentes, definicion de metricas y responsabilidades basicas. Estas practicas ayudan a pasar de gestion reactiva a visibilidad operativa.",
+    "tags": ["gobierno", "catalogo de servicios", "registro de incidentes", "definicion de metricas", "responsabilidades"]
+  },
+  {
+    "case_id": "C13",
+    "chunk_id": "C13-010",
+    "section": "Condiciones y puntos unicos de falla",
+    "page": 9,
+    "topic": "conditions",
+    "text": "Las condiciones especiales son falta de metricas, incidentes recurrentes y falta de gobierno. Los patrones de punto unico de falla incluyen base de datos primaria de nodo unico, firewall unico y dependencia de servicio central.",
+    "tags": ["falta de metricas", "incidentes recurrentes", "falta de gobierno", "base de datos", "firewall", "servicio central"]
+  }
+]

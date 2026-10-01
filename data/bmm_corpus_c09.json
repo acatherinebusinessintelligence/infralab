@@ -1,0 +1,92 @@
+[
+  {
+    "case_id": "C09",
+    "chunk_id": "C09-001",
+    "section": "Contexto de negocio",
+    "page": 1,
+    "topic": "business_context",
+    "text": "El caso Clinica en expansion representa una institucion de salud que abre nuevas sedes y debe extender servicios clinicos, conectividad y soporte operativo. El negocio depende de apertura de sedes, estandarizacion operativa, continuidad asistencial y escalabilidad.",
+    "tags": ["salud", "clinica", "expansion", "apertura de sedes", "continuidad asistencial", "escalabilidad"]
+  },
+  {
+    "case_id": "C09",
+    "chunk_id": "C09-002",
+    "section": "Usuarios y actores",
+    "page": 1,
+    "topic": "users",
+    "text": "Los actores afectados se relacionan con continuidad asistencial, apertura de sedes, soporte operativo y estandarizacion. Historia clinica electronica, agenda medica, mesa de ayuda, portal de pacientes y gestion documental sostienen esa expansion.",
+    "tags": ["usuarios", "pacientes", "sedes", "soporte operativo", "historia clinica", "portal de pacientes"]
+  },
+  {
+    "case_id": "C09",
+    "chunk_id": "C09-003",
+    "section": "Servicios criticos",
+    "page": 2,
+    "topic": "critical_services",
+    "text": "Los servicios sugeridos del caso son historia clinica electronica, agenda medica, mesa de ayuda, portal de pacientes y gestion documental. Estos servicios sostienen atencion clinica, soporte y continuidad entre sedes.",
+    "tags": ["servicios criticos", "historia clinica electronica", "agenda medica", "mesa de ayuda", "portal de pacientes", "gestion documental"]
+  },
+  {
+    "case_id": "C09",
+    "chunk_id": "C09-004",
+    "section": "Infraestructura",
+    "page": 3,
+    "topic": "infrastructure",
+    "text": "Los componentes sugeridos incluyen red WAN, servicios cloud, firewall, base de datos, backup, directorio activo y monitoreo. Las arquitecturas compatibles son hibrida y cloud.",
+    "tags": ["infraestructura", "red wan", "servicios cloud", "firewall", "base de datos", "backup", "directorio activo"]
+  },
+  {
+    "case_id": "C09",
+    "chunk_id": "C09-005",
+    "section": "Dependencias",
+    "page": 4,
+    "topic": "dependencies",
+    "text": "El caso define dependencias entre nueva sede y red WAN, entre autenticacion e historia clinica electronica, entre historia clinica electronica y base de datos, y entre mesa de ayuda y directorio activo.",
+    "tags": ["dependencias", "nueva sede", "red wan", "autenticacion", "historia clinica electronica", "base de datos", "directorio activo"]
+  },
+  {
+    "case_id": "C09",
+    "chunk_id": "C09-006",
+    "section": "Riesgos",
+    "page": 5,
+    "topic": "risks",
+    "text": "Los patrones de riesgo incluyen crecimiento sin estandarizacion, conectividad desigual entre sedes, soporte insuficiente y politicas de acceso inconsistentes.",
+    "tags": ["riesgos", "crecimiento", "estandarizacion", "conectividad", "soporte", "acceso"]
+  },
+  {
+    "case_id": "C09",
+    "chunk_id": "C09-007",
+    "section": "Incidentes",
+    "page": 6,
+    "topic": "incidents",
+    "text": "Los patrones de incidente incluyen nueva sede sin acceso estable, fallas de autenticacion, demoras en soporte y sincronizacion incompleta de datos.",
+    "tags": ["incidentes", "nueva sede", "acceso", "autenticacion", "soporte", "sincronizacion"]
+  },
+  {
+    "case_id": "C09",
+    "chunk_id": "C09-008",
+    "section": "Metricas",
+    "page": 7,
+    "topic": "metrics",
+    "text": "Los dominios metricos relevantes son disponibilidad, MTTR, capacidad, latencia y utilizacion. La evidencia disponible es parcial para disponibilidad, incidentes, timestamps, capacidad y completa para backup; latencia esta faltante.",
+    "tags": ["metricas", "disponibilidad", "mttr", "capacidad", "latencia", "backup"]
+  },
+  {
+    "case_id": "C09",
+    "chunk_id": "C09-009",
+    "section": "Gobierno y acceso",
+    "page": 8,
+    "topic": "governance",
+    "text": "Los patrones de gobierno incluyen gestion de cambios, matriz de responsabilidades, controles de acceso y SLA por sede. Estas practicas ayudan a controlar expansion, soporte y continuidad asistencial.",
+    "tags": ["gobierno", "gestion de cambios", "responsabilidades", "controles de acceso", "sla por sede"]
+  },
+  {
+    "case_id": "C09",
+    "chunk_id": "C09-010",
+    "section": "Condiciones y puntos unicos de falla",
+    "page": 9,
+    "topic": "conditions",
+    "text": "Las condiciones especiales son apertura de nuevas sedes, crecimiento acelerado y falta de gobierno. Los patrones de punto unico de falla incluyen enlace WAN unico, instancia unica de autenticacion y dependencia de servicio central.",
+    "tags": ["apertura de sedes", "crecimiento acelerado", "falta de gobierno", "wan", "autenticacion", "servicio central"]
+  }
+]

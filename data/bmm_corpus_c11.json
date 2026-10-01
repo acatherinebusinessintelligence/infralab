@@ -1,0 +1,92 @@
+[
+  {
+    "case_id": "C11",
+    "chunk_id": "C11-001",
+    "section": "Contexto de negocio",
+    "page": 1,
+    "topic": "business_context",
+    "text": "El caso Banco en transformacion hibrida representa una entidad bancaria tradicional que combina sistemas centrales, canales digitales y migraciones parciales hacia nube. El negocio depende de transformacion digital, cumplimiento regulatorio, continuidad transaccional y modernizacion gradual.",
+    "tags": ["banca", "transformacion digital", "hibrida", "cumplimiento regulatorio", "continuidad transaccional"]
+  },
+  {
+    "case_id": "C11",
+    "chunk_id": "C11-002",
+    "section": "Usuarios y actores",
+    "page": 1,
+    "topic": "users",
+    "text": "Los actores afectados se relacionan con canales digitales, continuidad transaccional, pagos digitales, CRM y autenticacion. La banca en linea y el core bancario conectan servicios de cliente con sistemas centrales.",
+    "tags": ["usuarios", "canales digitales", "banca en linea", "core bancario", "pagos digitales", "autenticacion"]
+  },
+  {
+    "case_id": "C11",
+    "chunk_id": "C11-003",
+    "section": "Servicios criticos",
+    "page": 2,
+    "topic": "critical_services",
+    "text": "Los servicios sugeridos del caso son core bancario, banca en linea, pagos digitales, CRM y autenticacion. Estos servicios sostienen transacciones, canales digitales y relacion con clientes.",
+    "tags": ["servicios criticos", "core bancario", "banca en linea", "pagos digitales", "crm", "autenticacion"]
+  },
+  {
+    "case_id": "C11",
+    "chunk_id": "C11-004",
+    "section": "Infraestructura",
+    "page": 3,
+    "topic": "infrastructure",
+    "text": "Los componentes sugeridos incluyen servidores, base de datos, firewall, red WAN, servicios cloud, backup y monitoreo. Las arquitecturas compatibles son hibrida y on premise.",
+    "tags": ["infraestructura", "servidores", "base de datos", "firewall", "red wan", "servicios cloud"]
+  },
+  {
+    "case_id": "C11",
+    "chunk_id": "C11-005",
+    "section": "Dependencias",
+    "page": 4,
+    "topic": "dependencies",
+    "text": "El caso define dependencias entre banca en linea y core bancario, entre pagos digitales y core bancario, entre autenticacion y banca en linea, y entre core bancario y base de datos.",
+    "tags": ["dependencias", "banca en linea", "core bancario", "pagos digitales", "autenticacion", "base de datos"]
+  },
+  {
+    "case_id": "C11",
+    "chunk_id": "C11-006",
+    "section": "Riesgos",
+    "page": 5,
+    "topic": "risks",
+    "text": "Los patrones de riesgo incluyen dependencias entre sistemas legados y nube, ventanas de cambio restringidas, riesgos de seguridad e integraciones fragiles.",
+    "tags": ["riesgos", "sistemas legados", "nube", "cambios", "seguridad", "integraciones"]
+  },
+  {
+    "case_id": "C11",
+    "chunk_id": "C11-007",
+    "section": "Incidentes",
+    "page": 6,
+    "topic": "incidents",
+    "text": "Los patrones de incidente incluyen intermitencia en banca en linea, fallas de integracion, lentitud en consultas y alertas de seguridad.",
+    "tags": ["incidentes", "banca en linea", "integracion", "lentitud", "consultas", "seguridad"]
+  },
+  {
+    "case_id": "C11",
+    "chunk_id": "C11-008",
+    "section": "Metricas",
+    "page": 7,
+    "topic": "metrics",
+    "text": "Los dominios metricos relevantes son disponibilidad, MTTR, latencia, capacidad y utilizacion. La evidencia disponible es completa para disponibilidad, incidentes, timestamps, latencia y backup; capacidad es parcial.",
+    "tags": ["metricas", "disponibilidad", "mttr", "latencia", "capacidad", "utilizacion"]
+  },
+  {
+    "case_id": "C11",
+    "chunk_id": "C11-009",
+    "section": "Gobierno y cumplimiento",
+    "page": 8,
+    "topic": "governance",
+    "text": "Los patrones de gobierno incluyen COBIT para control TI, gestion de cambios ITIL, controles ISO 27001 y gestion de proveedores. Estas practicas conectan continuidad bancaria, seguridad y cumplimiento.",
+    "tags": ["gobierno", "cobit", "itil", "iso 27001", "proveedores", "cumplimiento"]
+  },
+  {
+    "case_id": "C11",
+    "chunk_id": "C11-010",
+    "section": "Condiciones y puntos unicos de falla",
+    "page": 9,
+    "topic": "conditions",
+    "text": "Las condiciones especiales son problemas de seguridad, dependencia de proveedor y aumento de costos. Los patrones de punto unico de falla incluyen base de datos primaria de nodo unico, instancia unica de autenticacion y dependencia de servicio central.",
+    "tags": ["seguridad", "dependencia proveedor", "aumento costos", "base de datos", "autenticacion", "servicio central"]
+  }
+]

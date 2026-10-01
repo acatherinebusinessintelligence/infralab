@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>InfraLab · Panel docente</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+  <main class="section" style="max-width:640px;margin:12vh auto;text-align:center">
+    <div class="glass panel">
+      <h2>Panel docente</h2>
+      <p class="muted">El panel administrativo vive en el servidor del curso (PythonAnywhere): importar los CSV de Moodle, asignar casos, gestionar equipos y códigos, y hacer el seguimiento de cada equipo.</p>
+      <p id="go"></p>
+      <p class="hint">Si el botón no aparece, configura <code>API_BASE</code> en <code>assets/js/config.js</code>.</p>
+      <p><a href="index.html">Volver al sitio</a></p>
+    </div>
+  </main>
+  <script src="assets/js/config.js"></script>
+  <script>
+    (function () {
+      var base = ((window.INFRALAB_CONFIG || {}).API_BASE || "").replace(/\/+$/, "");
+      var go = document.getElementById("go");
+      if (base) { var a = document.createElement("a"); a.className = "btn btn-primary"; a.href = base + "/admin"; a.textContent = "Abrir el panel administrativo"; go.appendChild(a); }
+      else { go.textContent = "El servidor del curso todavía no está configurado."; }
+    })();
+  </script>
+</body>
+</html>

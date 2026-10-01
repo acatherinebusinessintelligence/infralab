@@ -1,0 +1,92 @@
+[
+  {
+    "case_id": "C07",
+    "chunk_id": "C07-001",
+    "section": "Contexto de negocio",
+    "page": 1,
+    "topic": "business_context",
+    "text": "El caso Logistica distribuida representa una operacion logistica con centros regionales, trazabilidad de pedidos, sistemas WMS/TMS y conectividad entre sedes. El negocio depende de trazabilidad, cumplimiento de entregas, coordinacion regional y visibilidad operacional.",
+    "tags": ["logistica", "centros regionales", "trazabilidad", "cumplimiento de entregas", "visibilidad operacional"]
+  },
+  {
+    "case_id": "C07",
+    "chunk_id": "C07-002",
+    "section": "Usuarios y actores",
+    "page": 1,
+    "topic": "users",
+    "text": "Los actores afectados se relacionan con coordinacion regional, visibilidad operacional, portal de clientes e integracion con transportadoras. La operacion depende de que WMS, TMS, trazabilidad y dispositivos moviles sostengan el flujo logistico.",
+    "tags": ["usuarios", "coordinacion regional", "portal de clientes", "transportadoras", "dispositivos moviles"]
+  },
+  {
+    "case_id": "C07",
+    "chunk_id": "C07-003",
+    "section": "Servicios criticos",
+    "page": 2,
+    "topic": "critical_services",
+    "text": "Los servicios sugeridos del caso son WMS, TMS, trazabilidad, portal de clientes e integracion con transportadoras. Estos servicios sostienen seguimiento de pedidos, coordinacion de transporte y comunicacion con clientes.",
+    "tags": ["servicios criticos", "wms", "tms", "trazabilidad", "portal de clientes", "transportadoras"]
+  },
+  {
+    "case_id": "C07",
+    "chunk_id": "C07-004",
+    "section": "Infraestructura",
+    "page": 3,
+    "topic": "infrastructure",
+    "text": "Los componentes sugeridos incluyen red WAN, servicios cloud, base de datos, firewall, monitoreo, backup y dispositivos moviles. Las arquitecturas compatibles son hibrida y cloud.",
+    "tags": ["infraestructura", "red wan", "servicios cloud", "base de datos", "firewall", "dispositivos moviles"]
+  },
+  {
+    "case_id": "C07",
+    "chunk_id": "C07-005",
+    "section": "Dependencias",
+    "page": 4,
+    "topic": "dependencies",
+    "text": "El caso define dependencias entre dispositivos moviles y WMS, entre WMS y base de datos, entre TMS y red WAN, y entre trazabilidad e integracion con transportadoras.",
+    "tags": ["dependencias", "dispositivos moviles", "wms", "base de datos", "tms", "red wan", "transportadoras"]
+  },
+  {
+    "case_id": "C07",
+    "chunk_id": "C07-006",
+    "section": "Riesgos",
+    "page": 5,
+    "topic": "risks",
+    "text": "Los patrones de riesgo incluyen intermitencia entre sedes, datos de trazabilidad incompletos, dependencia de enlaces WAN y sincronizacion tardia.",
+    "tags": ["riesgos", "intermitencia", "sedes", "trazabilidad incompleta", "wan", "sincronizacion"]
+  },
+  {
+    "case_id": "C07",
+    "chunk_id": "C07-007",
+    "section": "Incidentes",
+    "page": 6,
+    "topic": "incidents",
+    "text": "Los patrones de incidente incluyen retrasos por caida de WMS, perdida temporal de trazabilidad, lentitud en centro regional y errores de integracion.",
+    "tags": ["incidentes", "wms", "trazabilidad", "centro regional", "integracion", "retrasos"]
+  },
+  {
+    "case_id": "C07",
+    "chunk_id": "C07-008",
+    "section": "Metricas",
+    "page": 7,
+    "topic": "metrics",
+    "text": "Los dominios metricos relevantes son disponibilidad, latencia, MTTR, capacidad y utilizacion. Estas metricas permiten observar continuidad del WMS/TMS, conectividad regional y recuperacion ante incidentes.",
+    "tags": ["metricas", "disponibilidad", "latencia", "mttr", "capacidad", "utilizacion"]
+  },
+  {
+    "case_id": "C07",
+    "chunk_id": "C07-009",
+    "section": "Gobierno y proveedores",
+    "page": 8,
+    "topic": "governance",
+    "text": "Los patrones de gobierno incluyen SLA regionales, gestion de proveedores, gestion de continuidad y catalogo de servicios. Estas practicas conectan operacion logistica con responsabilidades por sede y por proveedor.",
+    "tags": ["gobierno", "sla regionales", "proveedores", "continuidad", "catalogo de servicios"]
+  },
+  {
+    "case_id": "C07",
+    "chunk_id": "C07-010",
+    "section": "Condiciones y puntos unicos de falla",
+    "page": 9,
+    "topic": "conditions",
+    "text": "Las condiciones especiales son apertura de nuevas sedes, dependencia de proveedor e incidentes recurrentes. Los patrones de punto unico de falla incluyen enlace WAN unico, dependencia de servicio central y base de datos primaria de nodo unico.",
+    "tags": ["apertura de sedes", "dependencia proveedor", "incidentes recurrentes", "wan", "servicio central", "base de datos"]
+  }
+]

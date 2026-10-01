@@ -1,0 +1,92 @@
+[
+  {
+    "case_id": "C08",
+    "chunk_id": "C08-001",
+    "section": "Contexto de negocio",
+    "page": 1,
+    "topic": "business_context",
+    "text": "El caso Contact center omnicanal representa una operacion BPO con CRM, voz IP, grabaciones, canales digitales y metas estrictas de atencion. El negocio depende de nivel de servicio, calidad de atencion, continuidad de campanas y cumplimiento contractual.",
+    "tags": ["contact center", "bpo", "crm", "voz ip", "grabaciones", "nivel de servicio"]
+  },
+  {
+    "case_id": "C08",
+    "chunk_id": "C08-002",
+    "section": "Usuarios y actores",
+    "page": 1,
+    "topic": "users",
+    "text": "Los actores afectados se relacionan con calidad de atencion, continuidad de campanas, canales digitales y cumplimiento contractual. CRM, voz IP, grabaciones, chat y reporteria operacional sostienen la operacion diaria.",
+    "tags": ["usuarios", "atencion", "campanas", "canales digitales", "cumplimiento contractual"]
+  },
+  {
+    "case_id": "C08",
+    "chunk_id": "C08-003",
+    "section": "Servicios criticos",
+    "page": 2,
+    "topic": "critical_services",
+    "text": "Los servicios sugeridos del caso son CRM, voz IP, grabaciones, chat, marcador predictivo y reporteria operacional. Estos servicios sostienen atencion omnicanal, registro de interacciones y control operativo.",
+    "tags": ["servicios criticos", "crm", "voz ip", "grabaciones", "chat", "marcador predictivo"]
+  },
+  {
+    "case_id": "C08",
+    "chunk_id": "C08-004",
+    "section": "Infraestructura",
+    "page": 3,
+    "topic": "infrastructure",
+    "text": "Los componentes sugeridos incluyen red LAN, red WAN, servicios cloud, firewall, almacenamiento, monitoreo y directorio activo. Las arquitecturas compatibles son cloud e hibrida.",
+    "tags": ["infraestructura", "red lan", "red wan", "servicios cloud", "firewall", "almacenamiento"]
+  },
+  {
+    "case_id": "C08",
+    "chunk_id": "C08-005",
+    "section": "Dependencias",
+    "page": 4,
+    "topic": "dependencies",
+    "text": "El caso define dependencias entre voz IP y red WAN, entre CRM y base de datos, entre grabaciones y almacenamiento, y entre chat y CRM.",
+    "tags": ["dependencias", "voz ip", "red wan", "crm", "base de datos", "grabaciones", "almacenamiento"]
+  },
+  {
+    "case_id": "C08",
+    "chunk_id": "C08-006",
+    "section": "Riesgos",
+    "page": 5,
+    "topic": "risks",
+    "text": "Los patrones de riesgo incluyen degradacion de voz, almacenamiento creciente de grabaciones, fallas en CRM y dependencia de conectividad.",
+    "tags": ["riesgos", "voz", "grabaciones", "crm", "conectividad", "almacenamiento"]
+  },
+  {
+    "case_id": "C08",
+    "chunk_id": "C08-007",
+    "section": "Incidentes",
+    "page": 6,
+    "topic": "incidents",
+    "text": "Los patrones de incidente incluyen llamadas cortadas, grabaciones incompletas, CRM lento y colas de atencion elevadas.",
+    "tags": ["incidentes", "llamadas cortadas", "grabaciones", "crm lento", "colas de atencion"]
+  },
+  {
+    "case_id": "C08",
+    "chunk_id": "C08-008",
+    "section": "Metricas",
+    "page": 7,
+    "topic": "metrics",
+    "text": "Los dominios metricos relevantes son disponibilidad, latencia, almacenamiento, utilizacion y MTTR. Estas metricas permiten observar continuidad de campanas, calidad de voz y capacidad de grabaciones.",
+    "tags": ["metricas", "disponibilidad", "latencia", "almacenamiento", "utilizacion", "mttr"]
+  },
+  {
+    "case_id": "C08",
+    "chunk_id": "C08-009",
+    "section": "Gobierno y privacidad",
+    "page": 8,
+    "topic": "governance",
+    "text": "Los patrones de gobierno incluyen SLA por campana, gestion de incidentes, gestion de capacidad y controles de privacidad. Estas practicas conectan continuidad operativa con obligaciones contractuales y proteccion de informacion.",
+    "tags": ["gobierno", "sla por campana", "incidentes", "capacidad", "privacidad"]
+  },
+  {
+    "case_id": "C08",
+    "chunk_id": "C08-010",
+    "section": "Condiciones y puntos unicos de falla",
+    "page": 9,
+    "topic": "conditions",
+    "text": "Las condiciones especiales son crecimiento de almacenamiento, temporada de alta demanda e incidentes recurrentes. Los patrones de punto unico de falla incluyen enlace WAN unico, dependencia de servicio central e instancia unica de autenticacion.",
+    "tags": ["crecimiento almacenamiento", "temporada alta", "incidentes recurrentes", "wan", "servicio central", "autenticacion"]
+  }
+]

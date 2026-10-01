@@ -1,0 +1,167 @@
+[
+  {
+    "case_id": "C01",
+    "title": "MedNova IPS",
+    "case_name": "Hospital Conectado",
+    "sector": "Salud",
+    "challenge_type": "Continuidad clinica y disponibilidad de servicios criticos",
+    "description": "IPS de mediana complejidad con HCE, servicios clinicos 24/7, infraestructura reactiva y riesgos de continuidad.",
+    "source": "backend/tests/fixtures/C01_mednova_ips.json",
+    "corpus_file": "bmm_corpus_c01.json",
+    "ai_enabled": true
+  },
+  {
+    "case_id": "C02",
+    "title": "Universidad Digital",
+    "case_name": "Universidad digital",
+    "sector": "Educacion superior",
+    "challenge_type": "Continuidad academica y servicios digitales para estudiantes y docentes",
+    "description": "Institucion de educacion superior con plataformas academicas, procesos de matricula y servicios digitales remotos.",
+    "source": "backend/data/archetypes.json#universidad_digital",
+    "corpus_file": "bmm_corpus_c02.json",
+    "ai_enabled": true
+  },
+  {
+    "case_id": "C03",
+    "title": "NovaPay Digital",
+    "case_name": "Fintech 24/7",
+    "sector": "Fintech",
+    "challenge_type": "Continuidad transaccional y confianza digital",
+    "description": "Empresa fintech con pagos digitales 24/7, APIs externas y alta sensibilidad a continuidad y seguridad.",
+    "source": "backend/data/bmm_corpus_c03.json",
+    "corpus_file": "bmm_corpus_c03.json",
+    "ai_enabled": true
+  },
+  {
+    "case_id": "C04",
+    "title": "Retail con demanda pico",
+    "case_name": "Retail con demanda pico",
+    "sector": "Retail / e-commerce",
+    "challenge_type": "Continuidad de ventas digitales, checkout e inventario en demanda estacional",
+    "description": "Operacion comercial con tienda digital, inventario, checkout y pagos expuestos a alta demanda estacional.",
+    "source": "backend/data/archetypes.json#retail_peak",
+    "corpus_file": "bmm_corpus_c04.json",
+    "ai_enabled": true
+  },
+  {
+    "case_id": "C05",
+    "title": "Planta Industria 4.0",
+    "case_name": "Planta Industria 4.0",
+    "sector": "Manufactura / Industria 4.0",
+    "challenge_type": "Continuidad de produccion, trazabilidad e integracion IT/OT",
+    "description": "Entorno manufacturero con sistemas MES, sensores IoT, integracion con ERP y dependencia de continuidad en planta.",
+    "source": "backend/data/archetypes.json#industria_40",
+    "corpus_file": "bmm_corpus_c05.json",
+    "ai_enabled": true
+  },
+  {
+    "case_id": "C06",
+    "title": "Gobierno digital local",
+    "case_name": "Gobierno digital local",
+    "sector": "Gobierno",
+    "challenge_type": "Continuidad de tramites ciudadanos, gestion documental y servicios publicos digitales",
+    "description": "Entidad publica con tramites ciudadanos, portal institucional, gestion documental y restricciones de continuidad presupuestal.",
+    "source": "backend/data/archetypes.json#gobierno_digital",
+    "corpus_file": "bmm_corpus_c06.json",
+    "ai_enabled": true
+  },
+  {
+    "case_id": "C07",
+    "title": "Logistica distribuida",
+    "case_name": "Logistica distribuida",
+    "sector": "Logistica",
+    "challenge_type": "Trazabilidad, cumplimiento de entregas y conectividad entre sedes",
+    "description": "Operacion logistica con centros regionales, trazabilidad de pedidos, sistemas WMS/TMS y conectividad entre sedes.",
+    "source": "backend/data/archetypes.json#logistica_distribuida",
+    "corpus_file": "bmm_corpus_c07.json",
+    "ai_enabled": true
+  },
+  {
+    "case_id": "C08",
+    "title": "Contact center omnicanal",
+    "case_name": "Contact center omnicanal",
+    "sector": "Contact Center / BPO",
+    "challenge_type": "Continuidad de campanas, calidad de atencion y canales omnicanal",
+    "description": "Operacion BPO con CRM, voz IP, grabaciones, canales digitales y metas estrictas de atencion.",
+    "source": "backend/data/archetypes.json#contact_center",
+    "corpus_file": "bmm_corpus_c08.json",
+    "ai_enabled": true
+  },
+  {
+    "case_id": "C09",
+    "title": "Clinica en expansion",
+    "case_name": "Clinica en expansion",
+    "sector": "Salud",
+    "challenge_type": "Apertura de sedes, continuidad clinica y estandarizacion operativa",
+    "description": "Institucion de salud que abre nuevas sedes y debe extender servicios clinicos, conectividad y soporte operativo.",
+    "source": "backend/data/archetypes.json#salud_expansion",
+    "corpus_file": "bmm_corpus_c09.json",
+    "ai_enabled": true
+  },
+  {
+    "case_id": "C10",
+    "title": "SaaS cloud en crecimiento",
+    "case_name": "SaaS cloud en crecimiento",
+    "sector": "SaaS / Tecnologia",
+    "challenge_type": "Escalabilidad, disponibilidad de producto y control de costos cloud",
+    "description": "Startup tecnologica con plataforma SaaS, clientes crecientes, APIs, autenticacion y componentes cloud administrados.",
+    "source": "backend/data/archetypes.json#saas_cloud",
+    "corpus_file": "bmm_corpus_c10.json",
+    "ai_enabled": true
+  },
+  {
+    "case_id": "C11",
+    "title": "Banco en transformacion hibrida",
+    "case_name": "Banco en transformacion hibrida",
+    "sector": "Banca",
+    "challenge_type": "Continuidad transaccional, modernizacion gradual y cumplimiento regulatorio",
+    "description": "Entidad bancaria tradicional que combina sistemas centrales, canales digitales y migraciones parciales hacia nube.",
+    "source": "backend/data/archetypes.json#banca_hibrida",
+    "corpus_file": "bmm_corpus_c11.json",
+    "ai_enabled": true
+  },
+  {
+    "case_id": "C12",
+    "title": "Supermercados distribuidos",
+    "case_name": "Supermercados distribuidos",
+    "sector": "Supermercados",
+    "challenge_type": "Continuidad en punto de venta, inventario y operacion multi-sede",
+    "description": "Cadena de tiendas con POS, inventario, conectividad distribuida y operaciones dependientes de sincronizacion central.",
+    "source": "backend/data/archetypes.json#supermercados_distribuidos",
+    "corpus_file": "bmm_corpus_c12.json",
+    "ai_enabled": true
+  },
+  {
+    "case_id": "C13",
+    "title": "Empresa sin linea base de metricas",
+    "case_name": "Empresa sin linea base de metricas",
+    "sector": "Servicios empresariales",
+    "challenge_type": "Visibilidad operativa, linea base de metricas y formalizacion de gestion",
+    "description": "Organizacion con infraestructura gestionada de forma operativa, evidencia incompleta y poca trazabilidad sobre desempeno real.",
+    "source": "backend/data/archetypes.json#empresa_sin_metricas",
+    "corpus_file": "bmm_corpus_c13.json",
+    "ai_enabled": true
+  },
+  {
+    "case_id": "C14",
+    "title": "Holding con gobierno TI debil",
+    "case_name": "Holding con gobierno TI debil",
+    "sector": "Corporativo / Holding",
+    "challenge_type": "Gobierno TI, estandarizacion corporativa y control de proveedores",
+    "description": "Grupo corporativo con varias filiales, herramientas duplicadas, proveedores multiples y decisiones de infraestructura poco coordinadas.",
+    "source": "backend/data/archetypes.json#holding_sin_gobierno",
+    "corpus_file": "bmm_corpus_c14.json",
+    "ai_enabled": true
+  },
+  {
+    "case_id": "C15",
+    "title": "Operacion smart city",
+    "case_name": "Operacion smart city",
+    "sector": "Smart City",
+    "challenge_type": "Operacion urbana 24/7, telemetria IoT y continuidad distribuida",
+    "description": "Ecosistema urbano con IoT, video, gateways, edge/cloud, telemetria y operacion continua para servicios de ciudad.",
+    "source": "backend/data/archetypes.json#smart_city",
+    "corpus_file": "bmm_corpus_c15.json",
+    "ai_enabled": true
+  }
+]

@@ -1,0 +1,19 @@
+# Secretos y datos del backend
+backend/.env
+backend/*.db
+backend/.venv/
+__pycache__/
+*.pyc
+
+# Sistema / editor
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Listas de estudiantes (datos personales): nunca subir a GitHub
+Grupos/
+*.csv
+!data/*.csv
+
+# PDF oficiales de los casos: se reparten por Moodle
+Casos/

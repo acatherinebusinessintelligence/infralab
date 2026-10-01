@@ -1,0 +1,92 @@
+[
+  {
+    "case_id": "C05",
+    "chunk_id": "C05-001",
+    "section": "Contexto de negocio",
+    "page": 1,
+    "topic": "business_context",
+    "text": "El caso Planta Industria 4.0 representa un entorno manufacturero con sistemas MES, sensores IoT, integracion con ERP y dependencia de continuidad en planta. El negocio depende de continuidad de produccion, trazabilidad, automatizacion e integracion operativa.",
+    "tags": ["manufactura", "industria 4.0", "continuidad de produccion", "trazabilidad", "automatizacion"]
+  },
+  {
+    "case_id": "C05",
+    "chunk_id": "C05-002",
+    "section": "Usuarios y actores",
+    "page": 1,
+    "topic": "users",
+    "text": "Los actores afectados se relacionan con la operacion de planta, trazabilidad, automatizacion e integracion entre areas operativas. Los servicios MES, ERP, IoT industrial, control de planta y analitica operacional sostienen esos procesos.",
+    "tags": ["usuarios", "operacion de planta", "trazabilidad", "automatizacion", "it ot", "analitica operacional"]
+  },
+  {
+    "case_id": "C05",
+    "chunk_id": "C05-003",
+    "section": "Servicios criticos",
+    "page": 2,
+    "topic": "critical_services",
+    "text": "Los servicios sugeridos del caso son MES, ERP, IoT industrial, control de planta y analitica operacional. Estos servicios conectan datos de planta, seguimiento operativo e integracion con procesos empresariales.",
+    "tags": ["servicios criticos", "mes", "erp", "iot industrial", "control de planta", "analitica operacional"]
+  },
+  {
+    "case_id": "C05",
+    "chunk_id": "C05-004",
+    "section": "Infraestructura",
+    "page": 3,
+    "topic": "infrastructure",
+    "text": "Los componentes sugeridos incluyen red LAN, red WAN, servidores, base de datos, gateways IoT, monitoreo y backup. Las arquitecturas compatibles son on premise e hibrida.",
+    "tags": ["infraestructura", "red lan", "red wan", "servidores", "base de datos", "gateways iot", "monitoreo"]
+  },
+  {
+    "case_id": "C05",
+    "chunk_id": "C05-005",
+    "section": "Dependencias",
+    "page": 4,
+    "topic": "dependencies",
+    "text": "El caso define dependencias entre sensores IoT y gateways IoT, entre gateways IoT y MES, entre MES y base de datos, y entre MES y ERP.",
+    "tags": ["dependencias", "sensores iot", "gateways iot", "mes", "base de datos", "erp"]
+  },
+  {
+    "case_id": "C05",
+    "chunk_id": "C05-006",
+    "section": "Riesgos",
+    "page": 5,
+    "topic": "risks",
+    "text": "Los patrones de riesgo incluyen interrupcion de planta, segmentacion insuficiente entre IT y OT, telemetria incompleta y obsolescencia de componentes.",
+    "tags": ["riesgos", "interrupcion de planta", "segmentacion it ot", "telemetria", "obsolescencia"]
+  },
+  {
+    "case_id": "C05",
+    "chunk_id": "C05-007",
+    "section": "Incidentes",
+    "page": 6,
+    "topic": "incidents",
+    "text": "Los patrones de incidente incluyen perdida de datos de sensores, lentitud en MES, caida de enlace con ERP y alertas no atendidas.",
+    "tags": ["incidentes", "sensores", "mes", "erp", "alertas", "datos"]
+  },
+  {
+    "case_id": "C05",
+    "chunk_id": "C05-008",
+    "section": "Metricas",
+    "page": 7,
+    "topic": "metrics",
+    "text": "Los dominios metricos relevantes son disponibilidad, latencia, utilizacion, capacidad y MTTR. Estas metricas permiten observar continuidad de planta, desempeno de MES y recuperacion ante fallas operativas.",
+    "tags": ["metricas", "disponibilidad", "latencia", "utilizacion", "capacidad", "mttr"]
+  },
+  {
+    "case_id": "C05",
+    "chunk_id": "C05-009",
+    "section": "Gobierno y controles",
+    "page": 8,
+    "topic": "governance",
+    "text": "Los patrones de gobierno incluyen gestion de cambios, controles ISO 27001, gestion de activos y responsabilidad IT/OT. Estas practicas ayudan a ordenar cambios, seguridad y responsabilidad sobre servicios de planta.",
+    "tags": ["gobierno", "gestion de cambios", "iso 27001", "gestion de activos", "responsabilidad it ot"]
+  },
+  {
+    "case_id": "C05",
+    "chunk_id": "C05-010",
+    "section": "Condiciones y puntos unicos de falla",
+    "page": 9,
+    "topic": "conditions",
+    "text": "Las condiciones especiales son incidentes recurrentes, problemas de seguridad y falta de gobierno. Los patrones de punto unico de falla incluyen gateway unico, enlace WAN unico y dependencia de servicio central.",
+    "tags": ["incidentes recurrentes", "seguridad", "falta de gobierno", "gateway unico", "wan", "servicio central"]
+  }
+]

@@ -1,0 +1,92 @@
+[
+  {
+    "case_id": "C02",
+    "chunk_id": "C02-001",
+    "section": "Contexto de negocio",
+    "page": 1,
+    "topic": "business_context",
+    "text": "El caso Universidad digital representa una institucion de educacion superior con plataformas academicas, procesos de matricula y servicios digitales para estudiantes y docentes. El negocio academico depende de continuidad academica, experiencia estudiantil, periodos de matricula y servicios remotos.",
+    "tags": ["educacion superior", "universidad", "continuidad academica", "experiencia estudiantil", "servicios remotos"]
+  },
+  {
+    "case_id": "C02",
+    "chunk_id": "C02-002",
+    "section": "Usuarios y actores",
+    "page": 1,
+    "topic": "users",
+    "text": "Los actores del caso incluyen estudiantes y docentes que utilizan plataformas academicas, servicios digitales, correo institucional y portal estudiantil. Los procesos de matricula en linea tambien dependen de sistemas academicos y bases de datos.",
+    "tags": ["estudiantes", "docentes", "matricula", "portal estudiantil", "correo institucional"]
+  },
+  {
+    "case_id": "C02",
+    "chunk_id": "C02-003",
+    "section": "Servicios criticos",
+    "page": 2,
+    "topic": "critical_services",
+    "text": "Los servicios sugeridos del caso son LMS, sistema academico, matricula en linea, correo institucional y portal estudiantil. Estos servicios sostienen continuidad academica, experiencia estudiantil, periodos de matricula y servicios remotos.",
+    "tags": ["lms", "sistema academico", "matricula en linea", "correo institucional", "portal estudiantil"]
+  },
+  {
+    "case_id": "C02",
+    "chunk_id": "C02-004",
+    "section": "Infraestructura",
+    "page": 3,
+    "topic": "infrastructure",
+    "text": "Los componentes sugeridos para la Universidad digital incluyen servidores, base de datos, servicios cloud, firewall, directorio activo, backup y monitoreo. Las arquitecturas compatibles son on premise, cloud e hibrida.",
+    "tags": ["servidores", "base de datos", "servicios cloud", "firewall", "directorio activo", "backup", "monitoreo"]
+  },
+  {
+    "case_id": "C02",
+    "chunk_id": "C02-005",
+    "section": "Dependencias",
+    "page": 4,
+    "topic": "dependencies",
+    "text": "El caso define dependencias entre autenticacion y LMS, entre LMS y base de datos, entre matricula en linea y base de datos, y entre portal estudiantil y sistema academico.",
+    "tags": ["dependencias", "autenticacion", "lms", "base de datos", "matricula", "portal estudiantil", "sistema academico"]
+  },
+  {
+    "case_id": "C02",
+    "chunk_id": "C02-006",
+    "section": "Riesgos",
+    "page": 5,
+    "topic": "risks",
+    "text": "Los patrones de riesgo incluyen sobrecarga en matriculas, dependencias entre LMS y autenticacion, capacidad insuficiente y falta de pruebas de contingencia.",
+    "tags": ["riesgos", "sobrecarga", "matriculas", "autenticacion", "capacidad", "contingencia"]
+  },
+  {
+    "case_id": "C02",
+    "chunk_id": "C02-007",
+    "section": "Incidentes",
+    "page": 6,
+    "topic": "incidents",
+    "text": "Los patrones de incidente incluyen lentitud del LMS, errores de autenticacion, caida del portal de matricula y saturacion en fechas criticas.",
+    "tags": ["incidentes", "lentitud", "lms", "autenticacion", "portal de matricula", "saturacion"]
+  },
+  {
+    "case_id": "C02",
+    "chunk_id": "C02-008",
+    "section": "Metricas",
+    "page": 7,
+    "topic": "metrics",
+    "text": "Los dominios metricos relevantes para este caso son disponibilidad, capacidad, latencia y utilizacion. Estas metricas permiten observar continuidad de plataformas academicas, carga en matriculas y desempeno de servicios remotos.",
+    "tags": ["metricas", "disponibilidad", "capacidad", "latencia", "utilizacion", "servicios remotos"]
+  },
+  {
+    "case_id": "C02",
+    "chunk_id": "C02-009",
+    "section": "Gobierno y servicio",
+    "page": 8,
+    "topic": "governance",
+    "text": "Los patrones de gobierno incluyen catalogo de servicios, SLA academicos, gestion de cambios ITIL y controles de identidad ISO 27001. Estas practicas ayudan a conectar continuidad academica con responsabilidades de TI.",
+    "tags": ["gobierno", "catalogo de servicios", "sla academicos", "itil", "iso 27001", "identidad"]
+  },
+  {
+    "case_id": "C02",
+    "chunk_id": "C02-010",
+    "section": "Condiciones especiales",
+    "page": 9,
+    "topic": "conditions",
+    "text": "Las condiciones especiales asociadas al caso son temporada de alta demanda, falta de metricas y aumento de costos. Estas condiciones influyen en la priorizacion de capacidad, monitoreo y gobierno del servicio.",
+    "tags": ["temporada alta demanda", "falta de metricas", "aumento de costos", "capacidad", "monitoreo"]
+  }
+]

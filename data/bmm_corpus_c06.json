@@ -1,0 +1,92 @@
+[
+  {
+    "case_id": "C06",
+    "chunk_id": "C06-001",
+    "section": "Contexto de negocio",
+    "page": 1,
+    "topic": "business_context",
+    "text": "El caso Gobierno digital local representa una entidad publica con tramites ciudadanos, portal institucional, gestion documental y restricciones de continuidad presupuestal. El servicio publico depende de atencion ciudadana, transparencia, cumplimiento publico y continuidad de tramites.",
+    "tags": ["gobierno", "tramites ciudadanos", "portal institucional", "gestion documental", "continuidad"]
+  },
+  {
+    "case_id": "C06",
+    "chunk_id": "C06-002",
+    "section": "Usuarios y actores",
+    "page": 1,
+    "topic": "users",
+    "text": "Los actores afectados se relacionan con atencion ciudadana, transparencia, cumplimiento publico y continuidad de tramites. Los servicios de portal ciudadano, gestion documental, correo institucional, mesa de ayuda y tramites en linea sostienen esa relacion.",
+    "tags": ["usuarios", "ciudadanos", "atencion ciudadana", "transparencia", "tramites", "mesa de ayuda"]
+  },
+  {
+    "case_id": "C06",
+    "chunk_id": "C06-003",
+    "section": "Servicios criticos",
+    "page": 2,
+    "topic": "critical_services",
+    "text": "Los servicios sugeridos del caso son portal ciudadano, gestion documental, correo institucional, mesa de ayuda y tramites en linea. Estos servicios conectan atencion ciudadana, continuidad de tramites y gestion documental.",
+    "tags": ["servicios criticos", "portal ciudadano", "gestion documental", "correo institucional", "mesa de ayuda", "tramites en linea"]
+  },
+  {
+    "case_id": "C06",
+    "chunk_id": "C06-004",
+    "section": "Infraestructura",
+    "page": 3,
+    "topic": "infrastructure",
+    "text": "Los componentes sugeridos incluyen servidores, base de datos, firewall, red WAN, backup, directorio activo y monitoreo. Las arquitecturas compatibles son on premise, cloud e hibrida.",
+    "tags": ["infraestructura", "servidores", "base de datos", "firewall", "red wan", "backup", "directorio activo"]
+  },
+  {
+    "case_id": "C06",
+    "chunk_id": "C06-005",
+    "section": "Dependencias",
+    "page": 4,
+    "topic": "dependencies",
+    "text": "El caso define dependencias entre tramites en linea y portal ciudadano, entre portal ciudadano y base de datos, entre gestion documental y almacenamiento, y entre mesa de ayuda y correo institucional.",
+    "tags": ["dependencias", "tramites en linea", "portal ciudadano", "base de datos", "gestion documental", "almacenamiento", "correo institucional"]
+  },
+  {
+    "case_id": "C06",
+    "chunk_id": "C06-006",
+    "section": "Riesgos",
+    "page": 5,
+    "topic": "risks",
+    "text": "Los patrones de riesgo incluyen sistemas legados, dependencias poco documentadas, baja capacidad de monitoreo y ventanas de mantenimiento limitadas.",
+    "tags": ["riesgos", "sistemas legados", "dependencias", "monitoreo", "mantenimiento"]
+  },
+  {
+    "case_id": "C06",
+    "chunk_id": "C06-007",
+    "section": "Incidentes",
+    "page": 6,
+    "topic": "incidents",
+    "text": "Los patrones de incidente incluyen portal institucional no disponible, colas de atencion por fallas, retrasos en tramites y problemas de correo.",
+    "tags": ["incidentes", "portal institucional", "colas de atencion", "tramites", "correo"]
+  },
+  {
+    "case_id": "C06",
+    "chunk_id": "C06-008",
+    "section": "Metricas",
+    "page": 7,
+    "topic": "metrics",
+    "text": "Los dominios metricos relevantes son disponibilidad, MTTR, capacidad y latencia. La evidencia disponible es parcial para disponibilidad, incidentes, capacidad y backup, y faltante para timestamps de incidentes y latencia.",
+    "tags": ["metricas", "disponibilidad", "mttr", "capacidad", "latencia", "evidencia parcial"]
+  },
+  {
+    "case_id": "C06",
+    "chunk_id": "C06-009",
+    "section": "Gobierno y cumplimiento",
+    "page": 8,
+    "topic": "governance",
+    "text": "Los patrones de gobierno incluyen COBIT para gobierno TI, gestion de servicios ITIL, seguridad de informacion ISO 27001 y gestion documental. Estas practicas conectan servicio publico, control TI y continuidad de tramites.",
+    "tags": ["gobierno", "cobit", "itil", "iso 27001", "gestion documental", "servicio publico"]
+  },
+  {
+    "case_id": "C06",
+    "chunk_id": "C06-010",
+    "section": "Condiciones y puntos unicos de falla",
+    "page": 9,
+    "topic": "conditions",
+    "text": "Las condiciones especiales son falta de gobierno, falta de metricas y aumento de costos. Los patrones de punto unico de falla incluyen firewall unico, base de datos primaria de nodo unico y dependencia de servicio central.",
+    "tags": ["falta de gobierno", "falta de metricas", "aumento de costos", "firewall unico", "base de datos", "servicio central"]
+  }
+]

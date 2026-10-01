@@ -1,0 +1,92 @@
+[
+  {
+    "case_id": "C04",
+    "chunk_id": "C04-001",
+    "section": "Contexto de negocio",
+    "page": 1,
+    "topic": "business_context",
+    "text": "El caso Retail con demanda pico representa una operacion comercial con tienda digital, inventario, checkout y pagos expuestos a alta demanda estacional. El negocio depende de ventas en temporada alta, experiencia de compra, conversion digital y sincronizacion de inventario.",
+    "tags": ["retail", "e-commerce", "demanda pico", "ventas", "experiencia de compra", "inventario"]
+  },
+  {
+    "case_id": "C04",
+    "chunk_id": "C04-002",
+    "section": "Usuarios y actores",
+    "page": 1,
+    "topic": "users",
+    "text": "Los actores afectados se relacionan con la experiencia de compra, la conversion digital y la operacion comercial. Los servicios de e-commerce, checkout, pagos digitales, inventario y CRM sostienen la interaccion con clientes y los procesos comerciales.",
+    "tags": ["usuarios", "clientes", "experiencia de compra", "conversion digital", "crm", "operacion comercial"]
+  },
+  {
+    "case_id": "C04",
+    "chunk_id": "C04-003",
+    "section": "Servicios criticos",
+    "page": 2,
+    "topic": "critical_services",
+    "text": "Los servicios sugeridos del caso son e-commerce, checkout, pagos digitales, inventario y CRM. Estos servicios conectan ventas digitales, confirmacion de compra, pago y disponibilidad de productos.",
+    "tags": ["servicios criticos", "e-commerce", "checkout", "pagos digitales", "inventario", "crm"]
+  },
+  {
+    "case_id": "C04",
+    "chunk_id": "C04-004",
+    "section": "Infraestructura",
+    "page": 3,
+    "topic": "infrastructure",
+    "text": "Los componentes sugeridos incluyen servicios cloud, base de datos, balanceador de carga, firewall, monitoreo y contenedores. Las arquitecturas compatibles son cloud e hibrida.",
+    "tags": ["infraestructura", "servicios cloud", "base de datos", "balanceador de carga", "firewall", "contenedores"]
+  },
+  {
+    "case_id": "C04",
+    "chunk_id": "C04-005",
+    "section": "Dependencias",
+    "page": 4,
+    "topic": "dependencies",
+    "text": "El caso define dependencias entre e-commerce y base de datos, entre checkout y pagos digitales, entre checkout e inventario, y entre CRM y base de datos.",
+    "tags": ["dependencias", "e-commerce", "base de datos", "checkout", "pagos digitales", "inventario", "crm"]
+  },
+  {
+    "case_id": "C04",
+    "chunk_id": "C04-006",
+    "section": "Riesgos",
+    "page": 5,
+    "topic": "risks",
+    "text": "Los patrones de riesgo incluyen diferencia entre carga normal y carga pico, cuello de botella en checkout, dependencia de pasarela de pagos e inventario desactualizado.",
+    "tags": ["riesgos", "carga pico", "checkout", "pasarela de pagos", "inventario desactualizado"]
+  },
+  {
+    "case_id": "C04",
+    "chunk_id": "C04-007",
+    "section": "Incidentes",
+    "page": 6,
+    "topic": "incidents",
+    "text": "Los patrones de incidente incluyen carritos abandonados por lentitud, fallas en pagos, errores de inventario y saturacion de servicios web.",
+    "tags": ["incidentes", "carritos abandonados", "lentitud", "fallas en pagos", "errores de inventario", "saturacion"]
+  },
+  {
+    "case_id": "C04",
+    "chunk_id": "C04-008",
+    "section": "Metricas",
+    "page": 7,
+    "topic": "metrics",
+    "text": "Los dominios metricos relevantes son disponibilidad, latencia, capacidad, utilizacion y MTTR. Estas metricas permiten observar continuidad del checkout, desempeno bajo demanda pico y recuperacion ante incidentes.",
+    "tags": ["metricas", "disponibilidad", "latencia", "capacidad", "utilizacion", "mttr"]
+  },
+  {
+    "case_id": "C04",
+    "chunk_id": "C04-009",
+    "section": "Gobierno y continuidad",
+    "page": 8,
+    "topic": "governance",
+    "text": "Los patrones de gobierno incluyen gestion de capacidad, gestion de continuidad, SLA de proveedores y priorizacion de servicios criticos. Estas practicas ayudan a sostener ventas digitales durante temporada alta.",
+    "tags": ["gobierno", "gestion de capacidad", "continuidad", "sla de proveedores", "servicios criticos", "temporada alta"]
+  },
+  {
+    "case_id": "C04",
+    "chunk_id": "C04-010",
+    "section": "Condiciones y puntos unicos de falla",
+    "page": 9,
+    "topic": "conditions",
+    "text": "Las condiciones especiales son temporada de alta demanda, crecimiento acelerado y dependencia de proveedor. Los patrones de punto unico de falla incluyen base de datos primaria de nodo unico, dependencia de servicio central y firewall unico.",
+    "tags": ["temporada alta demanda", "crecimiento acelerado", "dependencia proveedor", "punto unico de falla", "base de datos", "firewall"]
+  }
+]

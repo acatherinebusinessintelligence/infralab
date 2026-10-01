@@ -1,0 +1,92 @@
+[
+  {
+    "case_id": "C12",
+    "chunk_id": "C12-001",
+    "section": "Contexto de negocio",
+    "page": 1,
+    "topic": "business_context",
+    "text": "El caso Supermercados distribuidos representa una cadena de tiendas con POS, inventario, conectividad distribuida y operaciones dependientes de sincronizacion central. El negocio depende de continuidad en punto de venta, control de inventario, operacion multi-sede y reportes diarios.",
+    "tags": ["supermercados", "pos", "inventario", "multi-sede", "sincronizacion", "reportes diarios"]
+  },
+  {
+    "case_id": "C12",
+    "chunk_id": "C12-002",
+    "section": "Usuarios y actores",
+    "page": 1,
+    "topic": "users",
+    "text": "Los actores afectados se relacionan con punto de venta, operacion multi-sede, facturacion, inventario y reporteria comercial. POS, ERP, facturacion y base de datos sostienen ventas y sincronizacion central.",
+    "tags": ["usuarios", "punto de venta", "tiendas", "facturacion", "inventario", "reporteria"]
+  },
+  {
+    "case_id": "C12",
+    "chunk_id": "C12-003",
+    "section": "Servicios criticos",
+    "page": 2,
+    "topic": "critical_services",
+    "text": "Los servicios sugeridos del caso son POS, inventario, ERP, facturacion y reporteria comercial. Estos servicios sostienen ventas en tienda, control de inventario y reportes diarios.",
+    "tags": ["servicios criticos", "pos", "inventario", "erp", "facturacion", "reporteria comercial"]
+  },
+  {
+    "case_id": "C12",
+    "chunk_id": "C12-004",
+    "section": "Infraestructura",
+    "page": 3,
+    "topic": "infrastructure",
+    "text": "Los componentes sugeridos incluyen red WAN, servidores, base de datos, firewall, backup, monitoreo y servicios cloud. Las arquitecturas compatibles son hibrida y on premise.",
+    "tags": ["infraestructura", "red wan", "servidores", "base de datos", "firewall", "backup", "servicios cloud"]
+  },
+  {
+    "case_id": "C12",
+    "chunk_id": "C12-005",
+    "section": "Dependencias",
+    "page": 4,
+    "topic": "dependencies",
+    "text": "El caso define dependencias entre POS y red WAN, entre POS y facturacion, entre inventario y ERP, y entre reporteria comercial y base de datos.",
+    "tags": ["dependencias", "pos", "red wan", "facturacion", "inventario", "erp", "base de datos"]
+  },
+  {
+    "case_id": "C12",
+    "chunk_id": "C12-006",
+    "section": "Riesgos",
+    "page": 5,
+    "topic": "risks",
+    "text": "Los patrones de riesgo incluyen tiendas desconectadas, fallas de POS, inventario desincronizado y respaldo local insuficiente.",
+    "tags": ["riesgos", "tiendas desconectadas", "pos", "inventario desincronizado", "respaldo local"]
+  },
+  {
+    "case_id": "C12",
+    "chunk_id": "C12-007",
+    "section": "Incidentes",
+    "page": 6,
+    "topic": "incidents",
+    "text": "Los patrones de incidente incluyen POS fuera de servicio, enlace de tienda caido, ventas sin sincronizar y demoras en facturacion.",
+    "tags": ["incidentes", "pos", "enlace de tienda", "ventas", "sincronizacion", "facturacion"]
+  },
+  {
+    "case_id": "C12",
+    "chunk_id": "C12-008",
+    "section": "Metricas",
+    "page": 7,
+    "topic": "metrics",
+    "text": "Los dominios metricos relevantes son disponibilidad, latencia, MTTR y capacidad. La evidencia disponible es completa para incidentes, parcial para disponibilidad, timestamps, latencia y backup, y faltante para capacidad.",
+    "tags": ["metricas", "disponibilidad", "latencia", "mttr", "capacidad", "evidencia"]
+  },
+  {
+    "case_id": "C12",
+    "chunk_id": "C12-009",
+    "section": "Gobierno y continuidad",
+    "page": 8,
+    "topic": "governance",
+    "text": "Los patrones de gobierno incluyen SLA por tienda, gestion de continuidad, gestion de activos y procedimientos de contingencia. Estas practicas conectan operacion multi-sede con continuidad en punto de venta.",
+    "tags": ["gobierno", "sla por tienda", "continuidad", "gestion de activos", "contingencia"]
+  },
+  {
+    "case_id": "C12",
+    "chunk_id": "C12-010",
+    "section": "Condiciones y puntos unicos de falla",
+    "page": 9,
+    "topic": "conditions",
+    "text": "Las condiciones especiales son apertura de nuevas sedes, incidentes recurrentes y temporada de alta demanda. Los patrones de punto unico de falla incluyen enlace WAN unico, dependencia de servicio central y base de datos primaria de nodo unico.",
+    "tags": ["apertura de sedes", "incidentes recurrentes", "temporada alta", "wan", "servicio central", "base de datos"]
+  }
+]

@@ -1,0 +1,92 @@
+[
+  {
+    "case_id": "C03",
+    "chunk_id": "C03-001",
+    "section": "Contexto de negocio",
+    "page": 1,
+    "topic": "business_context",
+    "text": "NovaPay Digital es una empresa fintech que opera servicios transaccionales 24/7. Su negocio depende de mantener pagos digitales disponibles para clientes, comercios y usuarios que esperan confirmar operaciones en tiempo real.",
+    "tags": ["fintech", "negocio", "pagos", "clientes", "operacion 24/7"]
+  },
+  {
+    "case_id": "C03",
+    "chunk_id": "C03-002",
+    "section": "Usuarios y actores",
+    "page": 1,
+    "topic": "users",
+    "text": "Los principales actores afectados por una interrupcion son clientes finales, comercios conectados, equipos de soporte y areas operativas que monitorean transacciones, conciliacion y notificaciones.",
+    "tags": ["usuarios", "clientes", "comercios", "soporte", "operacion"]
+  },
+  {
+    "case_id": "C03",
+    "chunk_id": "C03-003",
+    "section": "Servicios criticos",
+    "page": 2,
+    "topic": "critical_services",
+    "text": "Los servicios criticos del caso incluyen API transaccional, pagos digitales, autenticacion, notificaciones y analitica antifraude. Pagos digitales depende de la API transaccional y de integraciones con proveedor externo.",
+    "tags": ["servicios criticos", "api transaccional", "pagos digitales", "autenticacion", "notificaciones"]
+  },
+  {
+    "case_id": "C03",
+    "chunk_id": "C03-004",
+    "section": "Dependencias",
+    "page": 3,
+    "topic": "dependencies",
+    "text": "La autenticacion es dependencia de la API transaccional. La API transaccional depende de la base de datos. Pagos digitales depende de un proveedor externo. Notificaciones depende de la API transaccional.",
+    "tags": ["dependencias", "autenticacion", "api transaccional", "base de datos", "proveedor externo"]
+  },
+  {
+    "case_id": "C03",
+    "chunk_id": "C03-005",
+    "section": "Infraestructura",
+    "page": 4,
+    "topic": "infrastructure",
+    "text": "La infraestructura considerada incluye servicios cloud, base de datos, firewall, balanceador de carga, monitoreo, backup y contenedores. El caso resalta sensibilidad a continuidad, seguridad y crecimiento transaccional.",
+    "tags": ["infraestructura", "cloud", "base de datos", "balanceador", "contenedores", "monitoreo"]
+  },
+  {
+    "case_id": "C03",
+    "chunk_id": "C03-006",
+    "section": "Incidentes",
+    "page": 5,
+    "topic": "incidents",
+    "text": "Los patrones de incidente incluyen timeouts en pagos, errores en integraciones, alertas de seguridad y aumento inesperado de latencia. Estos incidentes afectan la experiencia del cliente y la confianza en la plataforma.",
+    "tags": ["incidentes", "timeouts", "pagos", "integraciones", "latencia", "seguridad"]
+  },
+  {
+    "case_id": "C03",
+    "chunk_id": "C03-007",
+    "section": "Metricas",
+    "page": 6,
+    "topic": "metrics",
+    "text": "Las metricas relevantes para analizar el caso son disponibilidad, latencia, MTTR, capacidad y utilizacion. Estas metricas permiten conectar el comportamiento tecnico con impacto operativo.",
+    "tags": ["metricas", "disponibilidad", "latencia", "mttr", "capacidad", "utilizacion"]
+  },
+  {
+    "case_id": "C03",
+    "chunk_id": "C03-008",
+    "section": "Riesgos",
+    "page": 7,
+    "topic": "risks",
+    "text": "Los riesgos principales incluyen degradacion de API, dependencia de proveedor externo, falla de autenticacion y controles de seguridad insuficientes. La degradacion de un servicio transaccional puede afectar continuidad, ingresos y reputacion.",
+    "tags": ["riesgos", "api", "proveedor externo", "autenticacion", "seguridad", "reputacion"]
+  },
+  {
+    "case_id": "C03",
+    "chunk_id": "C03-009",
+    "section": "Continuidad",
+    "page": 8,
+    "topic": "continuity",
+    "text": "El motor del negocio es la operacion 24/7. Una caida o degradacion prolongada puede impedir pagos, generar reclamos, afectar ingresos por transaccion y aumentar la carga del equipo de soporte.",
+    "tags": ["continuidad", "operacion 24/7", "pagos", "ingresos", "soporte"]
+  },
+  {
+    "case_id": "C03",
+    "chunk_id": "C03-010",
+    "section": "Restricciones y gobierno",
+    "page": 9,
+    "topic": "constraints",
+    "text": "El caso exige cumplimiento financiero, controles ISO 27001, gestion de incidentes mayores y acuerdos con proveedores. Las decisiones deben considerar continuidad, seguridad, crecimiento transaccional y confianza del cliente.",
+    "tags": ["cumplimiento", "iso 27001", "incidentes mayores", "proveedores", "confianza"]
+  }
+]

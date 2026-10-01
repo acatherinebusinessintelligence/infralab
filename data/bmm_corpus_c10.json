@@ -1,0 +1,92 @@
+[
+  {
+    "case_id": "C10",
+    "chunk_id": "C10-001",
+    "section": "Contexto de negocio",
+    "page": 1,
+    "topic": "business_context",
+    "text": "El caso SaaS cloud en crecimiento representa una startup tecnologica con plataforma SaaS, clientes crecientes, APIs, autenticacion y componentes cloud administrados. El negocio depende de crecimiento de clientes, escalabilidad, control de costos cloud y disponibilidad del producto.",
+    "tags": ["saas", "cloud", "crecimiento", "escalabilidad", "costos cloud", "disponibilidad"]
+  },
+  {
+    "case_id": "C10",
+    "chunk_id": "C10-002",
+    "section": "Usuarios y actores",
+    "page": 1,
+    "topic": "users",
+    "text": "Los actores afectados se relacionan con disponibilidad del producto, crecimiento de clientes, uso de APIs y experiencia de autenticacion. La aplicacion SaaS, API publica, autenticacion, base de datos administrada y observabilidad sostienen esa experiencia.",
+    "tags": ["usuarios", "clientes", "producto", "api publica", "autenticacion", "observabilidad"]
+  },
+  {
+    "case_id": "C10",
+    "chunk_id": "C10-003",
+    "section": "Servicios criticos",
+    "page": 2,
+    "topic": "critical_services",
+    "text": "Los servicios sugeridos del caso son aplicacion SaaS, API publica, autenticacion, base de datos administrada y observabilidad. Estos servicios conectan experiencia del producto, integraciones y monitoreo operativo.",
+    "tags": ["servicios criticos", "aplicacion saas", "api publica", "autenticacion", "base de datos administrada", "observabilidad"]
+  },
+  {
+    "case_id": "C10",
+    "chunk_id": "C10-004",
+    "section": "Infraestructura",
+    "page": 3,
+    "topic": "infrastructure",
+    "text": "Los componentes sugeridos incluyen servicios cloud, contenedores, base de datos, balanceador de carga, monitoreo, backup y firewall. La arquitectura compatible es cloud.",
+    "tags": ["infraestructura", "servicios cloud", "contenedores", "base de datos", "balanceador de carga", "monitoreo"]
+  },
+  {
+    "case_id": "C10",
+    "chunk_id": "C10-005",
+    "section": "Dependencias",
+    "page": 4,
+    "topic": "dependencies",
+    "text": "El caso define dependencias entre aplicacion SaaS y API publica, entre API publica y base de datos administrada, entre autenticacion y API publica, y entre observabilidad y servicios cloud.",
+    "tags": ["dependencias", "aplicacion saas", "api publica", "base de datos administrada", "autenticacion", "observabilidad"]
+  },
+  {
+    "case_id": "C10",
+    "chunk_id": "C10-006",
+    "section": "Riesgos",
+    "page": 5,
+    "topic": "risks",
+    "text": "Los patrones de riesgo incluyen componentes en unica region, costos cloud crecientes, limites de escalabilidad y dependencia de proveedor.",
+    "tags": ["riesgos", "region unica", "costos cloud", "escalabilidad", "dependencia proveedor"]
+  },
+  {
+    "case_id": "C10",
+    "chunk_id": "C10-007",
+    "section": "Incidentes",
+    "page": 6,
+    "topic": "incidents",
+    "text": "Los patrones de incidente incluyen errores en API, latencia por aumento de clientes, fallas de autenticacion y alertas de consumo cloud.",
+    "tags": ["incidentes", "api", "latencia", "clientes", "autenticacion", "consumo cloud"]
+  },
+  {
+    "case_id": "C10",
+    "chunk_id": "C10-008",
+    "section": "Metricas",
+    "page": 7,
+    "topic": "metrics",
+    "text": "Los dominios metricos relevantes son disponibilidad, latencia, capacidad, utilizacion y MTTR. La evidencia disponible es completa para disponibilidad, incidentes, timestamps, latencia y capacidad; backup es parcial.",
+    "tags": ["metricas", "disponibilidad", "latencia", "capacidad", "utilizacion", "mttr"]
+  },
+  {
+    "case_id": "C10",
+    "chunk_id": "C10-009",
+    "section": "Gobierno y producto",
+    "page": 8,
+    "topic": "governance",
+    "text": "Los patrones de gobierno incluyen gestion financiera cloud, gestion de cambios, controles ISO 27001 y SLO de producto. Estas practicas conectan escalabilidad, seguridad, costos y disponibilidad del SaaS.",
+    "tags": ["gobierno", "finops", "gestion financiera cloud", "cambios", "iso 27001", "slo"]
+  },
+  {
+    "case_id": "C10",
+    "chunk_id": "C10-010",
+    "section": "Condiciones y puntos unicos de falla",
+    "page": 9,
+    "topic": "conditions",
+    "text": "Las condiciones especiales son crecimiento acelerado, aumento de costos y dependencia de proveedor. Los patrones de punto unico de falla incluyen dependencia de region unica, instancia unica de autenticacion y dependencia de servicio central.",
+    "tags": ["crecimiento acelerado", "aumento costos", "dependencia proveedor", "region unica", "autenticacion", "servicio central"]
+  }
+]

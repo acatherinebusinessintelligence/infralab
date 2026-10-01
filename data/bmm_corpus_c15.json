@@ -1,0 +1,92 @@
+[
+  {
+    "case_id": "C15",
+    "chunk_id": "C15-001",
+    "section": "Contexto de negocio",
+    "page": 1,
+    "topic": "business_context",
+    "text": "El caso Operacion smart city representa un ecosistema urbano con IoT, video, gateways, edge/cloud, telemetria y operacion continua para servicios de ciudad. El negocio depende de operacion 24/7, seguridad ciudadana, analitica urbana y gestion distribuida.",
+    "tags": ["smart city", "iot", "video", "telemetria", "operacion 24/7", "seguridad ciudadana"]
+  },
+  {
+    "case_id": "C15",
+    "chunk_id": "C15-002",
+    "section": "Usuarios y actores",
+    "page": 1,
+    "topic": "users",
+    "text": "Los actores afectados se relacionan con seguridad ciudadana, analitica urbana, alertas operativas y servicios de ciudad. Video urbano, telemetria IoT, panel de control, alertas operativas y analitica urbana sostienen la operacion.",
+    "tags": ["usuarios", "seguridad ciudadana", "analitica urbana", "alertas operativas", "servicios de ciudad"]
+  },
+  {
+    "case_id": "C15",
+    "chunk_id": "C15-003",
+    "section": "Servicios criticos",
+    "page": 2,
+    "topic": "critical_services",
+    "text": "Los servicios sugeridos del caso son video urbano, telemetria IoT, panel de control, alertas operativas y analitica urbana. Estos servicios conectan observacion de ciudad, datos distribuidos y toma de decisiones operativas.",
+    "tags": ["servicios criticos", "video urbano", "telemetria iot", "panel de control", "alertas", "analitica urbana"]
+  },
+  {
+    "case_id": "C15",
+    "chunk_id": "C15-004",
+    "section": "Infraestructura",
+    "page": 3,
+    "topic": "infrastructure",
+    "text": "Los componentes sugeridos incluyen gateways IoT, edge computing, servicios cloud, almacenamiento, red WAN, firewall y monitoreo. Las arquitecturas compatibles son hibrida y cloud.",
+    "tags": ["infraestructura", "gateways iot", "edge computing", "servicios cloud", "almacenamiento", "red wan"]
+  },
+  {
+    "case_id": "C15",
+    "chunk_id": "C15-005",
+    "section": "Dependencias",
+    "page": 4,
+    "topic": "dependencies",
+    "text": "El caso define dependencias entre sensores y gateway, entre gateway y plataforma IoT, entre plataforma IoT y base de datos, y entre video urbano y almacenamiento.",
+    "tags": ["dependencias", "sensores", "gateway", "plataforma iot", "base de datos", "video urbano", "almacenamiento"]
+  },
+  {
+    "case_id": "C15",
+    "chunk_id": "C15-006",
+    "section": "Riesgos",
+    "page": 5,
+    "topic": "risks",
+    "text": "Los patrones de riesgo incluyen conectividad distribuida inestable, almacenamiento de gran volumen, dependencia de componentes edge y telemetria incompleta.",
+    "tags": ["riesgos", "conectividad distribuida", "almacenamiento", "edge", "telemetria incompleta"]
+  },
+  {
+    "case_id": "C15",
+    "chunk_id": "C15-007",
+    "section": "Incidentes",
+    "page": 6,
+    "topic": "incidents",
+    "text": "Los patrones de incidente incluyen perdida de video, gateway sin comunicacion, alertas tardias y saturacion de almacenamiento.",
+    "tags": ["incidentes", "perdida de video", "gateway", "alertas tardias", "almacenamiento"]
+  },
+  {
+    "case_id": "C15",
+    "chunk_id": "C15-008",
+    "section": "Metricas",
+    "page": 7,
+    "topic": "metrics",
+    "text": "Los dominios metricos relevantes son disponibilidad, latencia, almacenamiento, capacidad, utilizacion y MTTR. La evidencia disponible es completa para disponibilidad, incidentes, timestamps, latencia y backup; capacidad es parcial.",
+    "tags": ["metricas", "disponibilidad", "latencia", "almacenamiento", "capacidad", "mttr"]
+  },
+  {
+    "case_id": "C15",
+    "chunk_id": "C15-009",
+    "section": "Gobierno y operacion 24/7",
+    "page": 8,
+    "topic": "governance",
+    "text": "Los patrones de gobierno incluyen gestion de continuidad, controles ISO 27001, gestion de proveedores y modelo operativo 24/7. Estas practicas conectan seguridad ciudadana con responsabilidad operativa y continuidad.",
+    "tags": ["gobierno", "continuidad", "iso 27001", "proveedores", "modelo operativo 24/7"]
+  },
+  {
+    "case_id": "C15",
+    "chunk_id": "C15-010",
+    "section": "Condiciones y puntos unicos de falla",
+    "page": 9,
+    "topic": "conditions",
+    "text": "Las condiciones especiales son crecimiento de almacenamiento, problemas de seguridad e incidentes recurrentes. Los patrones de punto unico de falla incluyen gateway unico, enlace WAN unico y dependencia de servicio central.",
+    "tags": ["crecimiento almacenamiento", "seguridad", "incidentes recurrentes", "gateway unico", "wan", "servicio central"]
+  }
+]
