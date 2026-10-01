@@ -17,3 +17,7 @@ Grupos/
 
 # PDF oficiales de los casos: se reparten por Moodle
 Casos/
+
+# Clave de respuestas (confidencial): se carga solo desde el panel /admin
+backend/answer_key/*
+!backend/answer_key/README.md

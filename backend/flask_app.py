@@ -1,8 +1,9 @@
-"""InfraLab · backend del Tutor IA.
+"""InfraLab · backend del Tutor y Mentor IA.
 
 Recibe el trabajo de los estudiantes desde el frontend (GitHub Pages), pide
 retroalimentación formativa a DeepSeek, guarda cada entrega en SQLite y expone
-un panel de consulta para el docente.
+un panel de consulta para el docente. El Mentor IA (mentor.py) da pistas
+graduadas y revisa respuestas contra la clave confidencial del docente.
 
 Despliegue: ver backend/README.md (PythonAnywhere).
 """
@@ -20,6 +21,7 @@ from dotenv import load_dotenv
 from flask import Flask, Response, jsonify, request
 from flask_cors import CORS
 
+import mentor
 import rag
 import teams
 from storage import close_db, get_db, init_db
@@ -41,6 +43,8 @@ ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "")
 SECRET_KEY = os.getenv("SECRET_KEY", "") or os.getenv("TEACHER_TOKEN", "") or "cambia-esta-clave"
 # Si es verdadero, solo los equipos registrados (código + correo) pueden usar el Tutor IA.
 REQUIRE_TEAM_LOGIN = os.getenv("REQUIRE_TEAM_LOGIN", "1").lower() in ("1", "true", "si", "sí", "yes")
+# Consultas a la IA del Mentor (pistas y revisiones) por equipo y por hora.
+MENTOR_RATE_PER_HOUR = int(os.getenv("MENTOR_RATE_PER_HOUR", "40"))
 
 app = Flask(__name__)
 app.config.update(
@@ -53,13 +57,20 @@ app.config.update(
     SESSION_COOKIE_SAMESITE="Lax",
     SESSION_COOKIE_SECURE=os.getenv("SESSION_COOKIE_SECURE", "1") == "1",
     PERMANENT_SESSION_LIFETIME=timedelta(hours=12),
+    DEEPSEEK_API_KEY=DEEPSEEK_API_KEY,
+    DEEPSEEK_BASE_URL=DEEPSEEK_BASE_URL,
+    DEEPSEEK_MODEL=DEEPSEEK_MODEL,
+    MENTOR_RATE_PER_HOUR=MENTOR_RATE_PER_HOUR,
+    REPO_DIR=os.path.abspath(os.path.join(BASE_DIR, "..")),
 )
 CORS(app, resources={r"/api/*": {"origins": ALLOWED_ORIGINS}})
 app.register_blueprint(teams.bp)
+app.register_blueprint(mentor.bp)
 app.teardown_appcontext(close_db)
 
 LEVELS = ["Insuficiente", "En desarrollo", "Satisfactorio", "Excelente"]
 KB = rag.KnowledgeBase(KNOWLEDGE_DIR, DATA_DIR)
+app.extensions["infralab_kb"] = KB
 
 SYSTEM_PROMPT = """Eres el tutor del taller «Gestión de la Infraestructura TI» (Uniminuto). Haces SEGUIMIENTO y das
 retroalimentación formativa a equipos de estudiantes que analizan un caso de una organización real.

@@ -18,7 +18,7 @@
 
   <section class="login card" id="login">
     <h2>Panel administrativo</h2>
-    <p class="muted">Equipos, códigos de acceso y seguimiento de los estudiantes.</p>
+    <p class="muted">Equipos, códigos de acceso, seguimiento de los estudiantes y clave del Mentor IA.</p>
     <label>Contraseña<input type="password" id="pwd" autocomplete="current-password"></label>
     <button class="btn" id="enter">Entrar</button>
     <p class="msg" id="login-msg"></p>
@@ -27,9 +27,11 @@
   <main id="app" hidden>
     <nav class="tabs" id="tabs">
       <button data-tab="seg" class="on">Seguimiento</button>
+      <button data-tab="men">Mentor IA</button>
       <button data-tab="eq">Equipos y códigos</button>
       <button data-tab="imp">Importar CSV</button>
       <button data-tab="per">Periodos y NRC</button>
+      <button data-tab="key">Clave de respuestas</button>
       <button data-tab="tut">Tutor IA</button>
     </nav>
     <div class="filters" id="filters">
@@ -39,6 +41,8 @@
       <label class="grow">Buscar<input type="search" id="f-q" placeholder="Equipo, código, nombre o correo"></label>
     </div>
     <section id="tab-seg" class="tab"></section>
+    <section id="tab-men" class="tab" hidden></section>
+    <section id="tab-key" class="tab" hidden></section>
     <section id="tab-eq" class="tab" hidden></section>
     <section id="tab-imp" class="tab" hidden></section>
     <section id="tab-per" class="tab" hidden></section>
@@ -47,6 +51,7 @@
 
   <div class="modal" id="modal" hidden><div class="modal-bg" data-close></div><div class="modal-card"><button class="x" data-close>✕</button><div id="modal-body"></div></div></div>
   <div class="toast" id="toast" hidden></div>
+  <script src="/admin/frameworks.js"></script>
   <script src="/admin/admin.js"></script>
 </body>
 </html>

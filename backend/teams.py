@@ -412,8 +412,18 @@ def team_stats(db, team_id):
             if isinstance(v, (int, float)):
                 prog[k] = max(prog.get(k, 0), v)
         prog["updated_at"] = r["updated_at"]
+    # Mentor IA: ítems del caso asignado que el equipo ya resolvió, revisiones y pistas pedidas.
+    case_id = db.execute("SELECT case_id FROM teams WHERE id=?", (team_id,)).fetchone()["case_id"]
+    mt = {"ok": 0, "total": 0, "checks": 0, "hints": 0}
+    if case_id:
+        best = db.execute("""SELECT item, MIN(CASE verdict WHEN 'correcto' THEN 1 WHEN 'parcial' THEN 2 WHEN 'incorrecto' THEN 3 END) b,
+                                    COUNT(CASE WHEN kind='check' THEN 1 END) c, COUNT(CASE WHEN kind='hint' THEN 1 END) h
+                             FROM mentor_events WHERE team_id=? AND case_id=? GROUP BY item""", (team_id, case_id)).fetchall()
+        key = db.execute("SELECT data FROM answer_keys WHERE case_id=?", (case_id,)).fetchone()
+        mt = {"ok": sum(1 for r in best if r["b"] == 1), "total": len(json.loads(key["data"]).get("items", {})) if key else 0,
+              "checks": sum(r["c"] for r in best), "hints": sum(r["h"] for r in best)}
     return {"logins": lg["n"], "last_access": lg["last"], "people_in": lg["people"], "submissions": sb["n"], "last_submission": sb["last"],
-            "last_level": lvl["level"] if lvl else None, "progress": prog}
+            "last_level": lvl["level"] if lvl else None, "progress": prog, "mentor": mt}
 
 
 @bp.get("/api/admin/teams")
@@ -598,5 +608,7 @@ def admin_tracking_csv():
         s = team_stats(db, t["id"])
         n = db.execute("SELECT COUNT(*) FROM members WHERE team_id=? AND active=1", (t["id"],)).fetchone()[0]
         rows.append([t["period"], t["nrc"], t["name"], t["case_id"] or "", "activo" if t["active"] else "retirado", n, s["people_in"], s["logins"], s["last_access"] or "",
-                     s["submissions"], s["last_level"] or ""] + [s["progress"].get(k, "") for k in keys])
-    return _csv(rows, ["periodo", "nrc", "equipo", "caso", "estado", "integrantes", "han_ingresado", "accesos", "ultimo_acceso", "solicitudes_tutor", "ultimo_nivel"] + keys, "infralab_seguimiento.csv")
+                     s["submissions"], s["last_level"] or ""] + [s["progress"].get(k, "") for k in keys]
+                    + [f"{s['mentor']['ok']}/{s['mentor']['total']}", s["mentor"]["checks"], s["mentor"]["hints"]])
+    return _csv(rows, ["periodo", "nrc", "equipo", "caso", "estado", "integrantes", "han_ingresado", "accesos", "ultimo_acceso", "solicitudes_tutor", "ultimo_nivel"] + keys
+                + ["mentor_items_correctos", "mentor_revisiones", "mentor_pistas"], "infralab_seguimiento.csv")

@@ -1,4 +1,4 @@
-# InfraLab · Backend del Tutor IA (Flask + DeepSeek)
+# InfraLab · Backend del Tutor y Mentor IA (Flask + DeepSeek)
 
 Este backend recibe el trabajo de los estudiantes desde el frontend publicado en GitHub Pages y pide a **DeepSeek** retroalimentación formativa. El tutor **no entrega soluciones**. Cada entrega queda en SQLite para el seguimiento del docente.
 
@@ -68,6 +68,39 @@ Retirar a un integrante o a un equipo, regenerar un código o cerrar el periodo 
 - La base de datos (`infralab.db`) vive solo en PythonAnywhere y está excluida del repositorio.
 - Informa a los estudiantes qué se registra (accesos, avance y solicitudes al tutor) y con qué fin (seguimiento académico), conforme a la política de tratamiento de datos de la institución (Ley 1581 de 2012).
 
+## Mentor IA y clave de respuestas
+
+El **Mentor IA** acompaña al equipo ítem por ítem: clasificación Tier, cálculos (disponibilidad, MTTR, MTBF, meses de almacenamiento), clasificación de cada incidente (ITIL 4 · COBIT 2019 · ISO/IEC 27001) y cada pregunta guía. En cada ítem el estudiante puede:
+
+| Paso | Qué recibe | ¿Usa IA? |
+|---|---|---|
+| 1 · ¿Dónde busco? | Lugares del sitio (con botón «Ir») y los fragmentos del expediente más relacionados | No |
+| 2 · Pista | Pista conceptual: qué criterio del marco aplicar | Solo si el docente no la escribió |
+| 3 · Pista concreta | Qué evidencia específica del caso mirar, sin la conclusión | Solo si el docente no la escribió |
+| Revisar mi respuesta | Veredicto (correcto / parcial / incorrecto), qué campo falla, **el porqué** con citas del expediente y de los marcos (RAG), qué revisar y el siguiente paso | Sí |
+
+**La clave nunca sale del servidor.** Vive en la tabla `answer_keys` de la base de datos. El servidor compara la respuesta (Tier, cálculos e incidentes son determinísticos) y la IA solo explica el porqué. Si la IA llegara a escribir el valor esperado, el servidor lo oculta antes de responder mientras la respuesta no sea correcta. Las preguntas abiertas las evalúa la IA contra las **ideas clave** que defina el docente.
+
+### Cargar y validar la clave
+
+1. En tu computador, genera el borrador: `node backend/answer_key/build_draft.js`. Crea `backend/answer_key/clave_respuestas_borrador.json` con los 15 casos: Tier, cálculos, incidentes y preguntas guía. La carpeta está en `.gitignore`: **no se publica en GitHub**.
+2. En `/admin` → **Clave de respuestas**, importa ese archivo.
+3. Abre cada caso con **Revisar y editar**:
+   - Tier actual y objetivo aceptables.
+   - Valores y errores típicos de los cálculos.
+   - Práctica, objetivo y control principal y los aceptables de cada incidente.
+   - Pistas del docente y «dónde buscar».
+   - Ideas clave de las preguntas guía. **Proponer ideas clave con IA** genera un borrador a partir del expediente; revísalo antes de guardar.
+4. Marca **Caso validado por el docente** y guarda. Exporta un respaldo JSON cuando termines.
+
+### Seguimiento
+
+- En **Mentor IA** ves por equipo: Tier, cálculos, incidentes y preguntas resueltas, revisiones, pistas y última actividad.
+- Al abrir un equipo ves el estado por ítem y la bitácora completa: quién pidió qué pista y qué respondió el equipo en cada revisión.
+- La columna **Mentor** de «Seguimiento» y los CSV de seguimiento incluyen estos datos.
+- Muchas revisiones con pocas pistas pueden indicar ensayo y error.
+- El límite de consultas a la IA por equipo y por hora es `MENTOR_RATE_PER_HOUR` (por defecto 40). El paso 1 y las pistas escritas por el docente no consumen IA.
+
 ## Endpoints
 
 | Método | Ruta | Uso |
@@ -79,8 +112,11 @@ Retirar a un integrante o a un equipo, regenerar un código o cerrar el periodo 
 | POST | `/api/auth/login` | Estudiante: ingresa con `{code, email}` y recibe un token firmado (30 días) |
 | GET | `/api/auth/me` | Estudiante: valida la sesión y devuelve el equipo |
 | POST | `/api/progress` | Estudiante: guarda la foto de su avance en el caso |
+| POST | `/api/mentor/hint` | Estudiante: pista del ítem `{case_id, item, level}` (1 = dónde buscar, 2-3 = pistas) |
+| POST | `/api/mentor/check` | Estudiante: revisa su respuesta contra la clave y recibe el porqué (sin revelar la respuesta) |
+| GET | `/api/mentor/status?case_id=` | Estudiante: estado de cada ítem para su equipo |
 | GET | `/admin` | Panel administrativo (sesión con `ADMIN_PASSWORD`) |
-| * | `/api/admin/*` | API del panel: periodos, NRC, importación, equipos, integrantes, códigos y seguimiento (CSV) |
+| * | `/api/admin/*` | API del panel: periodos, NRC, importación, equipos, integrantes, códigos, seguimiento (CSV), clave de respuestas (`answer-keys`) y seguimiento del mentor (`mentor/*`) |
 | GET | `/api/teacher/stats` | Docente (Bearer token): totales por caso, nivel y grupo |
 | GET | `/api/teacher/submissions` | Docente: lista con filtros `case_id`, `group`, `level`, `q` |
 | GET | `/api/teacher/submissions/<id>` | Docente: detalle con el trabajo enviado y la respuesta del tutor |

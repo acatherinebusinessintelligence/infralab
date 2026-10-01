@@ -60,8 +60,8 @@
 
   function render() {
     $$(".tab").forEach((t) => (t.hidden = t.id !== "tab-" + state.tab));
-    $("#filters").hidden = state.tab === "imp" || state.tab === "per";
-    ({ seg: renderSeg, eq: renderEq, imp: renderImp, per: renderPer, tut: renderTut })[state.tab]();
+    $("#filters").hidden = state.tab === "imp" || state.tab === "per" || state.tab === "key";
+    ({ seg: renderSeg, men: renderMen, eq: renderEq, imp: renderImp, per: renderPer, key: renderKey, tut: renderTut })[state.tab]();
   }
 
   /* ---------- seguimiento ---------- */
@@ -78,13 +78,14 @@
         <div class="kpi"><b>${inn}</b><span>Han ingresado al menos una vez</span></div><div class="kpi"><b>${act.filter((t) => !t.stats.logins).length}</b><span>Equipos sin ingresos</span></div>
         <div class="kpi"><b>${subs}</b><span>Retroalimentaciones del tutor</span></div></div>
       <div class="bar-actions"><a class="btn ghost sm" href="/api/admin/tracking.csv?${params()}">Exportar seguimiento (CSV)</a><a class="btn ghost sm" href="/api/admin/codes.csv?${params()}">Exportar códigos (CSV)</a></div>
-      <div class="tbl-wrap"><table><thead><tr><th>Estado</th><th>NRC · Equipo</th><th>Caso</th><th>Ingresaron</th><th>Último acceso</th><th>Tutor IA</th><th>Avance</th></tr></thead><tbody>
+      <div class="tbl-wrap"><table><thead><tr><th>Estado</th><th>NRC · Equipo</th><th>Caso</th><th>Ingresaron</th><th>Último acceso</th><th>Tutor IA</th><th>Mentor</th><th>Avance</th></tr></thead><tbody>
       ${items.map((t) => { const [c, l] = health(t); const p = t.stats.progress || {}; const nm = t.members.filter((m) => m.active).length;
         return `<tr class="click" data-team="${t.id}"><td><span class="dot ${c}"></span>${l}</td><td><b>${esc(t.nrc)} · ${esc(t.name)}</b><br><span class="muted">${t.members.filter((m) => m.active).map((m) => esc(m.firstname)).join(", ") || "sin integrantes"}</span></td>
           <td>${t.case_id ? `<span class="pill">${t.case_id}</span>` : `<span class="pill amber">sin caso</span>`}</td>
           <td>${t.stats.people_in || 0}/${nm}<br><span class="muted">${t.stats.logins} accesos</span></td><td>${ago(t.stats.last_access)}</td>
           <td>${t.stats.submissions}${t.stats.last_level ? ` <span class="pill ${LVL[t.stats.last_level] || ""}">${esc(t.stats.last_level)}</span>` : ""}</td>
-          <td style="min-width:230px">${mini("Ejercicios", p.tours_done, p.tours_total || 17)}${mini("Preguntas", p.questions_answered, p.questions_total || 6)}${mini("BMM", p.bmm_pct, 100)}${mini("Cálculos", p.calcs_ok, 4)}${mini("Matriz", p.matrix_alts, 4)}</td></tr>`; }).join("") || `<tr><td colspan="7" class="muted">No hay equipos con estos filtros. Importa los CSV en «Importar CSV».</td></tr>`}
+          <td>${t.stats.mentor && t.stats.mentor.total ? `<b>${t.stats.mentor.ok}/${t.stats.mentor.total}</b><br><span class="muted">${t.stats.mentor.checks} rev. · ${t.stats.mentor.hints} pistas</span>` : `<span class="muted">—</span>`}</td>
+          <td style="min-width:230px">${mini("Ejercicios", p.tours_done, p.tours_total || 17)}${mini("Preguntas", p.questions_answered, p.questions_total || 6)}${mini("BMM", p.bmm_pct, 100)}${mini("Cálculos", p.calcs_ok, 4)}${mini("Matriz", p.matrix_alts, 4)}</td></tr>`; }).join("") || `<tr><td colspan="8" class="muted">No hay equipos con estos filtros. Importa los CSV en «Importar CSV».</td></tr>`}
       </tbody></table></div>`;
     box.querySelectorAll("[data-team]").forEach((tr) => tr.addEventListener("click", () => openTeam(+tr.dataset.team)));
   }
@@ -239,6 +240,155 @@
         ${d.items.map((s) => `<tr class="click" data-sub="${s.id}"><td>${fdate(s.created_at)}</td><td>${esc(s.student_name)}</td><td>${esc(s.student_group)}</td><td>${esc(s.case_id)}</td><td class="muted">${esc((s.sections || []).join(", "))}</td><td>${s.error ? '<span class="pill red">error</span>' : `<span class="pill ${LVL[s.level] || ""}">${esc(s.level || "—")}</span>`}</td></tr>`).join("") || `<tr><td colspan="6" class="muted">Sin solicitudes al tutor.</td></tr>`}</tbody></table></div>`;
       box.querySelectorAll("[data-sub]").forEach((tr) => tr.addEventListener("click", () => openSub(tr.dataset.sub)));
     } catch (e) { box.innerHTML = `<p class="msg">${esc(e.message)}</p>`; }
+  }
+
+  /* ---------- mentor: seguimiento por ítem ---------- */
+  const VERD = { correcto: ["green", "correcto"], parcial: ["amber", "parcial"], incorrecto: ["red", "incorrecto"] };
+  const cell = (g) => !g || !g.total ? `<span class="muted">—</span>`
+    : `<div class="mini m3"><i><b style="width:${Math.round(g.ok / g.total * 100)}%"></b></i><span>${g.ok}/${g.total}</span></div>${g.partial ? `<small class="muted">${g.partial} parcial(es)</small>` : ""}`;
+  async function renderMen() {
+    const box = $("#tab-men"); box.innerHTML = `<p class="muted">Cargando…</p>`;
+    let d; try { d = await api("/api/admin/mentor/tracking?" + params()); } catch (e) { box.innerHTML = `<p class="msg">${esc(e.message)}</p>`; return; }
+    const q = $("#f-q").value.toLowerCase();
+    const items = d.items.filter((t) => !q || (t.nrc + " " + t.name).toLowerCase().includes(q));
+    const withM = items.filter((t) => t.mentor && (t.mentor.checks || t.mentor.hints));
+    const avg = withM.length ? Math.round(withM.reduce((s, t) => s + t.mentor.ok / Math.max(1, t.mentor.total), 0) / withM.length * 100) : 0;
+    box.innerHTML = `<div class="kpis">
+        <div class="kpi"><b>${withM.length}/${items.length}</b><span>Equipos que usan el mentor</span></div>
+        <div class="kpi"><b>${items.reduce((s, t) => s + (t.mentor?.checks || 0), 0)}</b><span>Respuestas revisadas</span></div>
+        <div class="kpi"><b>${items.reduce((s, t) => s + (t.mentor?.hints || 0), 0)}</b><span>Pistas pedidas</span></div>
+        <div class="kpi"><b>${avg} %</b><span>Ítems resueltos (promedio de los que lo usan)</span></div></div>
+      <p class="muted">Cada ítem cuenta como resuelto cuando el equipo obtuvo «correcto» al revisarlo con el mentor. Muchas revisiones con pocas pistas pueden indicar ensayo y error: abre el equipo para ver el detalle.</p>
+      <div class="bar-actions"><a class="btn ghost sm" href="/api/admin/mentor/tracking.csv?${params()}">Exportar seguimiento del mentor (CSV)</a></div>
+      <div class="tbl-wrap"><table><thead><tr><th>NRC · Equipo</th><th>Caso</th><th>Tier</th><th>Cálculos</th><th>Incidentes</th><th>Preguntas</th><th>Resueltos</th><th>Revisiones · pistas</th><th>Última actividad</th></tr></thead><tbody>
+      ${items.map((t) => { const m = t.mentor; const g = m?.groups || {};
+        return `<tr class="click" data-mteam="${t.id}"><td><b>${esc(t.nrc)} · ${esc(t.name)}</b></td>
+          <td>${t.case_id ? `<span class="pill">${t.case_id}</span>${m && !m.key_loaded ? ` <span class="pill amber" title="Sin clave cargada">sin clave</span>` : ""}` : `<span class="pill amber">sin caso</span>`}</td>
+          <td>${g.tier ? (g.tier.ok ? `<span class="pill green">correcto</span>` : g.tier.partial ? `<span class="pill amber">parcial</span>` : g.tier.tried ? `<span class="pill red">incorrecto</span>` : `<span class="muted">—</span>`) : "—"}</td>
+          <td>${cell(g.calc)}</td><td>${cell(g.inc)}</td><td>${cell(g.q)}</td>
+          <td>${m ? `<b>${m.ok}/${m.total}</b>` : "—"}</td><td>${m ? `${m.checks} · ${m.hints}` : "—"}</td><td>${ago(m?.last_at)}</td></tr>`; }).join("") || `<tr><td colspan="9" class="muted">No hay equipos con estos filtros.</td></tr>`}
+      </tbody></table></div>`;
+    box.querySelectorAll("[data-mteam]").forEach((tr) => tr.addEventListener("click", () => openMentorTeam(+tr.dataset.mteam)));
+  }
+  const ansTxt = (a) => !a ? "" : a.text != null ? a.text : a.value != null ? a.value : Object.entries(a).filter(([, v]) => v).map(([k, v]) => `${k}: ${v}`).join(" · ");
+  async function openMentorTeam(id) {
+    const d = await api("/api/admin/mentor/team/" + id); const t = d.team, s = d.summary;
+    const rank = (k) => { const [g, x] = k.split("."); const gi = { tier: 0, calc: 1, inc: 2, q: 3 }[g] ?? 4; return gi * 100 + (g === "calc" ? ["av", "mttr", "mtbf", "months"].indexOf(x) : g === "inc" ? x.charCodeAt(0) - 65 : g === "q" ? +x : 0); };
+    const rows = s ? Object.entries(s.labels).sort(([a], [b]) => rank(a) - rank(b)).map(([k, l]) => { const it = s.items[k] || {}; const v = VERD[it.best];
+      return `<tr><td>${esc(l)}</td><td>${v ? `<span class="pill ${v[0]}">${v[1]}</span>` : `<span class="muted">sin revisar</span>`}</td><td>${it.checks || 0}</td><td>${it.hints || 0}${it.max_hint ? ` (nivel ${it.max_hint})` : ""}</td><td>${ago(it.last_at)}</td></tr>`; }).join("") : "";
+    modal(`<h2>${esc(t.nrc)} · ${esc(t.name)} · Mentor IA</h2><p class="muted">Caso ${esc(t.case_id || "sin asignar")} · ${s ? `${s.ok}/${s.total} ítems resueltos · ${s.checks} revisiones · ${s.hints} pistas` : "sin actividad"}</p>
+      ${rows ? `<h3>Estado por ítem</h3><div class="tbl-wrap"><table><thead><tr><th>Ítem</th><th>Mejor resultado</th><th>Revisiones</th><th>Pistas</th><th>Última</th></tr></thead><tbody>${rows}</tbody></table></div>` : ""}
+      <h3 style="margin-top:14px">Bitácora (${d.events.length})</h3><div class="tbl-wrap"><table><thead><tr><th>Fecha</th><th>Integrante</th><th>Caso · ítem</th><th>Acción</th><th>Respuesta del equipo</th><th>Mentor</th></tr></thead><tbody>
+      ${d.events.map((e) => { const v = VERD[e.verdict]; return `<tr><td>${fdate(e.created_at)}</td><td>${esc((e.firstname || "") + " " + (e.lastname || ""))}</td><td>${esc(e.case_id)} · ${esc(e.item)}</td>
+        <td>${e.kind === "hint" ? `<span class="pill">pista ${e.level}</span>` : v ? `<span class="pill ${v[0]}">${v[1]}</span>` : `<span class="pill">revisión</span>`}${e.error ? ` <span class="pill red" title="${esc(e.error)}">error</span>` : ""}</td>
+        <td class="muted" style="max-width:260px">${esc(ansTxt(e.answer)).slice(0, 300)}</td><td class="muted" style="max-width:320px">${esc(e.response?.explicacion || e.response?.pista || "").slice(0, 400)}</td></tr>`; }).join("") || `<tr><td colspan="6" class="muted">Sin actividad.</td></tr>`}
+      </tbody></table></div>`);
+  }
+
+  /* ---------- clave de respuestas ---------- */
+  let keyEdit = null; // { cid, key }
+  const lines = (a) => (a || []).map((x) => (typeof x === "string" ? x : x.tab ? `${x.text} | ${x.tab}` : x.text)).join("\n");
+  const parseLines = (t) => t.split("\n").map((x) => x.trim()).filter(Boolean);
+  const parseWhere = (t) => parseLines(t).map((x) => { const [text, tab] = x.split("|").map((y) => y.trim()); return tab ? { text, tab } : { text }; });
+  const fwOpts = (fw) => Object.values((window.FRAMEWORKS || {})[fw]?.groups || {}).flat();
+  async function renderKey() {
+    const box = $("#tab-key"); box.innerHTML = `<p class="muted">Cargando…</p>`;
+    let d; try { d = await api("/api/admin/answer-keys"); } catch (e) { box.innerHTML = `<p class="msg">${esc(e.message)}</p>`; return; }
+    box.innerHTML = `<div class="card"><h3>Clave de respuestas del Mentor IA</h3>
+        <p class="muted">La clave es <b>confidencial</b>: vive solo en este servidor y nunca se envía al navegador de los estudiantes. El mentor la usa para revisar respuestas (Tier, cálculos, incidentes) y para orientar pistas y explicaciones en las preguntas abiertas, sin revelarla.
+        Para empezar, importa el borrador <code>backend/answer_key/clave_respuestas_borrador.json</code> (lo genera <code>node backend/answer_key/build_draft.js</code> en tu computador), revisa cada caso y márcalo como <b>validado</b>.</p>
+        <div class="row"><label style="flex-direction:row;align-items:center;gap:8px">Importar JSON <input type="file" id="key-file" accept=".json,application/json"></label><button class="btn sm" id="key-imp">Importar</button>
+          <a class="btn ghost sm" href="/api/admin/answer-keys/export">Exportar respaldo (JSON)</a>
+          ${d.llm ? `<span class="pill green">IA disponible para borradores</span>` : `<span class="pill amber">Sin clave de DeepSeek: no se pueden generar borradores con IA</span>`}</div></div>
+      <div class="tbl-wrap" style="margin-top:12px"><table><thead><tr><th>Caso</th><th>Estado</th><th>Ítems</th><th>Preguntas sin ideas clave</th><th>Actualizado</th><th></th></tr></thead><tbody>
+      ${d.items.map((k) => `<tr><td><b>${k.case_id}</b></td><td>${!k.loaded ? `<span class="pill red">sin clave</span>` : k.validated ? `<span class="pill green">validado</span>` : `<span class="pill amber">borrador</span>`}</td>
+        <td>${k.items}</td><td>${k.loaded ? (k.open_without_ideas ? `<span class="pill amber">${k.open_without_ideas}</span>` : `<span class="pill green">0</span>`) : "—"}</td><td>${k.updated_at ? fdate(k.updated_at) : "—"}</td>
+        <td>${k.loaded ? `<button class="btn ghost sm" data-kedit="${k.case_id}">Revisar y editar</button>` : ""}</td></tr>`).join("")}</tbody></table></div>
+      <div id="key-editor"></div>`;
+    $("#key-imp").addEventListener("click", async () => {
+      const f = $("#key-file").files[0]; if (!f) return toast("Elige el archivo JSON", true);
+      const fd = new FormData(); fd.append("file", f); fd.append("keep_validated", "1");
+      try { const r = await api("/api/admin/answer-keys/import", { method: "POST", body: fd }); toast(`Importados: ${r.imported.length} caso(s)${r.errors.length ? " · errores: " + r.errors.length : ""}`, !!r.errors.length); renderKey(); if (r.errors.length) modal(`<h2>Errores de importación</h2><pre>${esc(r.errors.join("\n"))}</pre>`); }
+      catch (e) { toast(e.message, true); }
+    });
+    box.querySelectorAll("[data-kedit]").forEach((b) => b.addEventListener("click", () => editKey(b.dataset.kedit)));
+    if (keyEdit) editKey(keyEdit.cid, true);
+  }
+  async function editKey(cid, keep) {
+    if (!keep || !keyEdit || keyEdit.cid !== cid) { const d = await api("/api/admin/answer-keys/" + cid); keyEdit = { cid, key: d.key }; }
+    const k = keyEdit.key, ed = $("#key-editor");
+    const card = (iid, it) => {
+      const common = `<label>Por qué (para el mentor; no se muestra al estudiante)<textarea rows="2" data-k="rationale">${esc(it.rationale || "")}</textarea></label>
+        <div class="grid2"><label>Dónde buscar (una por línea · «texto | pestaña»)<textarea rows="3" data-k="where">${esc(lines(it.where))}</textarea></label>
+        <label>Pistas del docente (nivel 2 y 3, una por línea)<textarea rows="3" data-k="hints">${esc(lines(it.hints))}</textarea></label></div>`;
+      let body = "";
+      if (it.kind === "tier") {
+        const chk = (name, list) => ["I", "II", "III", "IV"].map((l) => `<label class="chk"><input type="checkbox" data-k="${name}" value="${l}" ${(list || []).includes(l) ? "checked" : ""}> Tier ${l}</label>`).join("");
+        body = `<div class="grid2"><div><b>Tier actual</b> · principal <select data-k="ans_actual">${["I", "II", "III", "IV"].map((l) => `<option ${it.answer?.actual === l ? "selected" : ""}>${l}</option>`).join("")}</select><div class="row">aceptables: ${chk("acc_actual", it.accept?.actual)}</div></div>
+          <div><b>Tier objetivo</b> · aceptables <div class="row">${chk("acc_objetivo", it.accept?.objetivo)}</div></div></div>
+          <label>Evidencias del inventario (una por línea)<textarea rows="3" data-k="evidence">${esc(lines(it.evidence))}</textarea></label>`;
+      } else if (it.kind === "number") {
+        body = `<div class="row"><label>Respuesta<input data-k="answer" value="${esc(it.answer ?? "")}" style="width:120px"></label><label>Tolerancia<input data-k="tol" value="${esc(it.tol ?? 0.02)}" style="width:90px"></label><label>Unidad<input data-k="unit" value="${esc(it.unit || "")}" style="width:80px"></label><label class="grow">Fórmula<input data-k="formula" value="${esc(it.formula || "")}"></label></div>
+          <label>Errores típicos (una por línea · «valor | mensaje»)<textarea rows="2" data-k="mistakes">${esc((it.mistakes || []).map(([v, m]) => `${v} | ${m}`).join("\n"))}</textarea></label>`;
+      } else if (it.kind === "incident") {
+        body = `<p class="muted">${esc(it.prompt || "")}</p><div class="grid3">${["itil", "cobit", "iso"].map((fw) => { const opts = fwOpts(fw); const acc = it.accept?.[fw] || [];
+          return `<div><b>${{ itil: "ITIL 4", cobit: "COBIT 2019", iso: "ISO 27001" }[fw]}</b><label>Principal<select data-k="ans_${fw}">${opts.map((o) => `<option ${it.answer?.[fw] === o ? "selected" : ""}>${esc(o)}</option>`).join("")}</select></label>
+            <label>Aceptables (Ctrl/⌘ + clic para varios)<select multiple size="6" data-k="acc_${fw}">${opts.map((o) => `<option ${acc.includes(o) ? "selected" : ""}>${esc(o)}</option>`).join("")}</select></label>
+            <small class="muted">Aceptables guardadas: ${acc.map(esc).join(" · ") || "ninguna"}</small></div>`; }).join("")}</div>`;
+      } else {
+        body = `<p class="muted">${esc(it.prompt || "")}</p><label>Ideas clave que debe contener una respuesta correcta (una por línea)<textarea rows="4" data-k="key_ideas">${esc(lines(it.key_ideas))}</textarea></label>`;
+      }
+      return `<details class="kitem" data-iid="${esc(iid)}" ${it.kind === "open" && !(it.key_ideas || []).length ? "open" : ""}><summary><b>${esc(it.label || iid)}</b> <span class="pill">${esc(iid)}</span> ${it.kind === "open" && !(it.key_ideas || []).length ? `<span class="pill amber">sin ideas clave</span>` : ""}</summary><div class="kbody">${body}${common}</div></details>`;
+    };
+    const order = Object.keys(k.items);
+    ed.innerHTML = `<div class="card" style="margin-top:14px"><div class="row" style="justify-content:space-between"><h3>Clave del caso ${esc(cid)}</h3>
+        <div class="row"><label class="chk"><input type="checkbox" id="k-valid" ${k.validated ? "checked" : ""}> Caso validado por el docente</label>
+          <button class="btn ghost sm" id="k-draft">Proponer ideas clave con IA</button><button class="btn sm" id="k-save">Guardar</button></div></div>
+        ${k.reference ? `<details><summary class="muted" style="cursor:pointer">Datos de referencia del caso (valores calculados y puntos únicos de falla)</summary><pre>${esc(JSON.stringify(k.reference, null, 2))}</pre></details>` : ""}
+        <div class="kitems">${order.map((iid) => card(iid, k.items[iid])).join("")}</div>
+        <p><button class="btn sm" id="k-save2">Guardar</button></p></div>`;
+    const collect = () => {
+      const out = JSON.parse(JSON.stringify(k));
+      ed.querySelectorAll(".kitem").forEach((el) => {
+        const it = out.items[el.dataset.iid]; const v = (n) => el.querySelector(`[data-k="${n}"]`);
+        if (v("rationale")) it.rationale = v("rationale").value.trim();
+        if (v("where")) it.where = parseWhere(v("where").value);
+        if (v("hints")) it.hints = parseLines(v("hints").value);
+        if (it.kind === "tier") {
+          it.answer = { ...(it.answer || {}), actual: v("ans_actual").value };
+          const cks = (n) => [...el.querySelectorAll(`[data-k="${n}"]:checked`)].map((x) => x.value);
+          it.accept = { actual: [...new Set([it.answer.actual, ...cks("acc_actual")])], objetivo: cks("acc_objetivo") };
+          it.answer.objetivo = it.accept.objetivo[0] || "";
+          it.evidence = parseLines(v("evidence").value);
+        } else if (it.kind === "number") {
+          it.answer = parseFloat(String(v("answer").value).replace(",", ".")); it.tol = parseFloat(String(v("tol").value).replace(",", ".")) || 0.02;
+          it.unit = v("unit").value.trim(); it.formula = v("formula").value.trim();
+          it.mistakes = parseLines(v("mistakes").value).map((x) => { const [a, ...m] = x.split("|"); return [parseFloat(a.replace(",", ".")), m.join("|").trim()]; }).filter(([a]) => isFinite(a));
+        } else if (it.kind === "incident") {
+          it.answer = {}; it.accept = {};
+          ["itil", "cobit", "iso"].forEach((fw) => { it.answer[fw] = v("ans_" + fw).value; it.accept[fw] = [...new Set([it.answer[fw], ...[...v("acc_" + fw).selectedOptions].map((o) => o.value)])]; });
+        } else {
+          it.key_ideas = parseLines(v("key_ideas").value);
+        }
+      });
+      return out;
+    };
+    const save = async () => {
+      try { const key = collect(); await api("/api/admin/answer-keys/" + cid, { method: "PUT", json: { key, validated: $("#k-valid").checked } }); keyEdit = { cid, key: { ...key, validated: $("#k-valid").checked } }; toast("Clave guardada"); renderKey(); }
+      catch (e) { toast(e.message, true); }
+    };
+    $("#k-save").addEventListener("click", save); $("#k-save2").addEventListener("click", save);
+    $("#k-draft").addEventListener("click", async (e) => {
+      const b = e.currentTarget; b.disabled = true; b.textContent = "Generando…";
+      try {
+        keyEdit.key = collect();
+        const r = await api(`/api/admin/answer-keys/${cid}/draft-open`, { method: "POST", json: { only_empty: true } });
+        const n = Object.keys(r.items || {}).length;
+        Object.entries(r.items || {}).forEach(([iid, v]) => { const it = keyEdit.key.items[iid]; if (!it) return; it.key_ideas = v.key_ideas; if (!(it.hints || []).length) it.hints = v.hints; });
+        toast(n ? `Borrador para ${n} pregunta(s): revísalo y guarda` : r.note || "Nada que generar"); editKey(cid, true);
+      } catch (err) { toast(err.message, true); b.disabled = false; b.textContent = "Proponer ideas clave con IA"; }
+    });
+    ed.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
   /* ---------- modal ---------- */

@@ -88,6 +88,33 @@ CREATE TABLE IF NOT EXISTS imports (
     members_n INTEGER,
     at TEXT NOT NULL
 );
+-- Clave de respuestas del Mentor IA (confidencial: solo vive en el servidor). data = JSON del caso.
+CREATE TABLE IF NOT EXISTS answer_keys (
+    case_id TEXT PRIMARY KEY,
+    data TEXT NOT NULL,
+    validated INTEGER NOT NULL DEFAULT 0,
+    updated_at TEXT NOT NULL
+);
+-- Bitácora del Mentor IA: cada pista pedida y cada respuesta revisada, por equipo e ítem.
+CREATE TABLE IF NOT EXISTS mentor_events (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    created_at TEXT NOT NULL,
+    team_id INTEGER,
+    member_id INTEGER,
+    case_id TEXT NOT NULL,
+    item TEXT NOT NULL,
+    kind TEXT NOT NULL,          -- hint | check
+    level INTEGER,               -- nivel de la pista (1-3)
+    verdict TEXT,                -- correcto | parcial | incorrecto
+    answer TEXT,
+    response TEXT,
+    llm INTEGER NOT NULL DEFAULT 0,
+    tokens_in INTEGER,
+    tokens_out INTEGER,
+    error TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_mentor_team ON mentor_events(team_id, case_id, item);
+CREATE INDEX IF NOT EXISTS idx_mentor_time ON mentor_events(team_id, created_at);
 """
 
 

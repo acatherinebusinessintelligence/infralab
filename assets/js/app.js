@@ -816,7 +816,7 @@
         <div class="kpi-row" style="margin-top:0"><div class="kpi"><b>${fmt(st.total)} TB</b><span>Capacidad total</span></div><div class="kpi ${stPct >= 85 ? "bad" : stPct >= 75 ? "warn" : ""}"><b>${fmt(st.used)} TB</b><span>Utilizada (${fmt(stPct, 1)} %)</span></div><div class="kpi"><b>${st.growth != null ? fmt(st.growth * 1000) + " GB" : "Sin dato"}</b><span>Crecimiento mensual</span></div></div>
         <div class="stor-bar"><i style="width:${stPct}%"></i></div>
         <p class="hint">${esc(st.note)}</p></div>
-      <div class="card span-12 tier-card"><h4>${icon("building")} Clasificación Tier del centro de datos (Uptime Institute)</h4>
+      <div class="card span-12 tier-card"><h4>${icon("building")} Clasificación Tier del centro de datos (Uptime Institute) <span class="h4-r">${mentorBtn("tier", "Clasificación Tier del centro de datos")}</span></h4>
         <div class="tier-grid">${window.TIERS.map((t) => `<div class="tier"><b>${esc(t.name)}</b><span>Redundancia: ${esc(t.red)}</span><span>Distribución: ${esc(t.path)}</span><span>Mantenimiento: ${esc(t.maint)}</span><span class="muted">Referencia histórica: ${esc(t.ref)}</span></div>`).join("")}</div>
         <div class="lab-ctx">
           <label>Tier que mejor describe la situación actual<select data-tier="actual"><option value="">— Elige —</option>${window.TIERS.map((t) => `<option ${tierSaved.actual === t.name ? "selected" : ""}>${esc(t.name)}</option>`).join("")}</select></label>
@@ -886,7 +886,7 @@
           <div class="calc-row ${r.state}" data-calc="${k}">
             <label><span>${esc(l)} <span class="muted">(${u})</span></span><input type="text" inputmode="decimal" value="${saved[k] != null ? esc(String(saved[k]).replace(".", ",")) : ""}" placeholder="?"></label>
             <button class="btn btn-sm" data-verify="${k}">Verificar</button>
-            <button class="icon-btn" data-hint="${k}" title="Ver fórmula">${icon("lightbulb")}</button>
+            <button class="icon-btn" data-hint="${k}" title="Ver fórmula">${icon("info")}</button>${mentorBtn("calc." + k, l)}
             <p class="calc-msg">${r.msg}</p><p class="calc-hint" hidden>Fórmula: <code>${esc(f)}</code></p></div>`; }).join("")}</div>
         ${s.partial ? `<p class="hint" style="color:#fbbf24">Datos parciales: solo 5 de 7 incidentes tienen hora exacta. Declara tus supuestos al calcular.</p>` : ""}</div>
       <div class="card span-5"><h4>${icon("gauge")} Caída real vs. caída permitida (${s.window} h)</h4><div class="chart-box tall"><canvas id="ch-target"></canvas></div>
@@ -988,7 +988,7 @@
       <div class="card span-7"><h4>${icon("clock" in window.ICONS ? "clock" : "alert")} Duración de los incidentes documentados</h4><div class="chart-box"><canvas id="ch-inc"></canvas></div>
         <p class="hint">${inc.length - known.length} incidentes no tienen duración documentada. ¿Qué dice eso de la gestión de incidentes?</p></div>
       <div class="card span-5"><h4>${icon("layers")} Tipos de incidente</h4><div class="chart-box"><canvas id="ch-cat"></canvas></div></div>
-      <div class="span-12 notice info">${icon("puzzle")}<span><b>Actividad (ITIL · COBIT · ISO 27001):</b> para cada incidente elige la práctica ITIL, el objetivo COBIT y el control ISO/IEC 27001 que más ayudarían a evitarlo o gestionarlo. Varios pueden aplicar: escoge el principal y defiéndelo en tus matrices. El Tutor IA puede revisar tu clasificación.</span></div>
+      <div class="span-12 notice info">${icon("puzzle")}<span><b>Actividad (ITIL · COBIT · ISO 27001):</b> para cada incidente elige la práctica ITIL, el objetivo COBIT y el control ISO/IEC 27001 que más ayudarían a evitarlo o gestionarlo. Varios pueden aplicar: escoge el principal y defiéndelo en tus matrices. Usa el botón <b>Mentor</b> de cada incidente para pedir pistas y revisar tu clasificación.</span></div>
       <div class="span-12 inc-list">${inc.map(([id, t, txt, dur, cat]) => `
         <article class="inc" style="--c:${INC_COLORS[cat] || "#94a3b8"}">
           <div class="inc-id">${id}</div>
@@ -997,7 +997,8 @@
             <div class="inc-sels">
               <label>Práctica ITIL 4${fwSelect("itil", `data-inc="${id}" data-fw="itil"`, saved[id]?.itil)}</label>
               <label>Objetivo COBIT 2019${fwSelect("cobit", `data-inc="${id}" data-fw="cobit"`, saved[id]?.cobit)}</label>
-              <label>Control ISO/IEC 27001:2022${fwSelect("iso", `data-inc="${id}" data-fw="iso"`, saved[id]?.iso)}</label></div></div>
+              <label>Control ISO/IEC 27001:2022${fwSelect("iso", `data-inc="${id}" data-fw="iso"`, saved[id]?.iso)}</label></div>
+            <div class="inc-mentor">${mentorBtn("inc." + id, `Incidente ${id} · ${t}`, txt, "Mentor: revisar mi clasificación")}</div></div>
         </article>`).join("")}</div>
     </div>`;
     makeChart($("#ch-inc"), { type: "bar", data: { labels: known.map((i) => `${i[0]} · ${i[1]}`), datasets: [{ data: known.map((i) => i[3]), backgroundColor: known.map((i) => alpha(INC_COLORS[i[4]] || "#94a3b8", .75)), borderRadius: 6 }] },
@@ -1018,7 +1019,7 @@
         <p class="hint">Una alternativa que ignore una restricción no es viable, por buena que sea técnicamente. Recuerda la regla de sustentación: <b>problema → evidencia → impacto → decisión → métrica</b>.</p></div>
       <div class="card span-12"><h4>${icon("target")} Preguntas guía <span class="pill" id="q-count" style="margin-left:auto"></span></h4>
         <p class="muted" style="margin-top:-6px">Responde en borrador aquí. Se guarda en tu navegador y se incluye al exportar la matriz.</p>
-        <ol class="q-list">${c.questions.map((q, i) => { const s = st[i] || {}; return `<li class="q-item ${s.done ? "done" : ""}" data-q="${i}"><input type="checkbox" ${s.done ? "checked" : ""} aria-label="Marcar como respondida"><div class="q-text">${linkTerms(q)}</div><textarea placeholder="Tu respuesta o hipótesis…">${esc(s.a || "")}</textarea></li>`; }).join("")}</ol></div>
+        <ol class="q-list">${c.questions.map((q, i) => { const s = st[i] || {}; return `<li class="q-item ${s.done ? "done" : ""}" data-q="${i}"><input type="checkbox" ${s.done ? "checked" : ""} aria-label="Marcar como respondida"><div class="q-text">${linkTerms(q)}</div><textarea placeholder="Tu respuesta o hipótesis…">${esc(s.a || "")}</textarea><div class="q-mentor">${mentorBtn("q." + i, `Pregunta guía ${i + 1}`, q, "Mentor: pista o revisión")}</div></li>`; }).join("")}</ol></div>
     </div>`;
     const count = () => { const s = store.get(c.case_id + ":q", {}); $("#q-count").textContent = `${Object.values(s).filter((x) => x && x.done).length}/${c.questions.length} respondidas`; };
     const save = (li) => { const s = store.get(c.case_id + ":q", {}); s[li.dataset.q] = { done: $("input", li).checked, a: $("textarea", li).value }; store.set(c.case_id + ":q", s); li.classList.toggle("done", $("input", li).checked); count(); };
@@ -1465,11 +1466,14 @@
       laboratorio: `${labChainsFor(c.case_id).length} servicios analizados`, matriz: `${(store.get(c.case_id + ":matrix", null)?.alts || []).length} alternativas`, libre: "" };
     const lastSel = store.get("tutor:sections", ["preguntas", "bmm", "libre"]);
     body.innerHTML = `<div class="ws-grid">
-      <div class="span-12 notice info">${icon("lightbulb")}<span><b>Tutor IA de seguimiento con RAG.</b> Revisa lo que has trabajado en este caso y te da retroalimentación formativa apoyada en ISO/IEC 27001:2022, ITIL 4, COBIT 2019, Tier, BMM y el expediente del caso, citando las fuentes. <b>No te dará la solución</b>: su trabajo es ayudarte a sustentar mejor (problema → evidencia → impacto → decisión → métrica). Para usarlo ingresa con el código de tu equipo. Tus respuestas se envían al servidor del curso y al modelo DeepSeek para generar la retroalimentación, y tu docente puede consultarlas.</span></div>
+      <div class="span-12 notice info">${icon("lightbulb")}<span><b>Mentor y Tutor IA con RAG.</b> El <b>Mentor</b> te acompaña ítem por ítem (pistas y revisión de cada respuesta) y el <b>Tutor</b> hace una revisión integral: revisa lo que has trabajado en este caso y te da retroalimentación formativa apoyada en ISO/IEC 27001:2022, ITIL 4, COBIT 2019, Tier, BMM y el expediente del caso, citando las fuentes. <b>No te dará la solución</b>: su trabajo es ayudarte a sustentar mejor (problema → evidencia → impacto → decisión → métrica). Para usarlo ingresa con el código de tu equipo. Tus respuestas se envían al servidor del curso y al modelo DeepSeek para generar la retroalimentación, y tu docente puede consultarlas.</span></div>
       ${API_BASE ? "" : `<div class="span-12 notice">${icon("alert")}<span><b>El backend no está configurado.</b> El docente debe desplegar la carpeta <code>backend/</code> en PythonAnywhere y escribir su URL en <code>assets/js/config.js</code> (<code>API_BASE</code>). Mientras tanto puedes seguir trabajando: todo se guarda en tu navegador.</span></div>`}
+      <div class="card span-12 mentor-card"><h4>${icon("lightbulb")} Mentor IA · seguimiento de tu caso</h4>
+        <p class="muted" style="margin-top:-6px">El mentor trabaja ítem por ítem: te dice <b>dónde buscar</b>, te da <b>pistas graduadas</b> y <b>revisa tu respuesta</b> explicándote el porqué con el expediente del caso y los marcos, sin darte la solución. También lo encuentras junto a cada ítem: Tier (Inventario), cálculos (Métricas), incidentes y preguntas guía (Retos).</p>
+        <p id="mentor-note"></p><div id="mentor-panel"></div></div>
       <div class="card span-4"><h4>${icon("users")} Mi equipo</h4><div class="team-card">${teamCardHtml()}</div>
         <p class="hint" id="api-status">${API_BASE ? "Comprobando conexión con el servidor…" : ""}</p></div>
-      <div class="card span-8"><h4>${icon("zap")} Solicitar retroalimentación</h4>
+      <div class="card span-8"><h4>${icon("zap")} Revisión integral del tutor</h4>
         <p class="muted" style="margin-top:-6px">Elige qué quieres que revise el tutor:</p>
         <div class="sec-picks">${TUTOR_SECTIONS.map(([k, l]) => `<label class="sec-pick"><input type="checkbox" value="${k}" ${lastSel.includes(k) ? "checked" : ""}><span><b>${l}</b>${counts[k] ? `<small>${counts[k]}</small>` : ""}</span></label>`).join("")}</div>
         <label style="margin-top:12px">Mi propuesta o pregunta para el tutor<textarea id="tutor-free" rows="4" placeholder="Describe tu análisis, tu alternativa preferida o la duda que tienes…">${esc(store.get(c.case_id + ":tutorfree", ""))}</textarea></label>
@@ -1500,6 +1504,7 @@
       else histChart = makeChart($("#ch-tutor"), { type: "line", data, options: { maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { min: 0, max: 4, ticks: { stepSize: 1, callback: (v) => LEVELS[v - 1] || "" } } } } }, wsCharts);
     };
     renderHistory(store.get("tutor:" + c.case_id, []));
+    refreshMentorPanel();
 
     if (API_BASE) {
       fetch(API_BASE + "/api/health").then((r) => r.json()).then((h) => { $("#api-status").innerHTML = h.ok && h.llm_configured ? `<span class="pill green">Servidor conectado</span>` : `<span class="pill amber">Servidor sin clave de DeepSeek</span>`; })
@@ -1737,6 +1742,150 @@
     } catch { /* sin conexión: se reintenta en el próximo cambio */ }
   }
   window.addEventListener("pagehide", () => syncProgress());
+
+  /* ==================== MENTOR IA (pistas graduadas y revisión por ítem) ==================== */
+  // La clave de respuestas vive solo en el servidor: aquí solo se envía la respuesta del equipo y se muestra el porqué.
+  const M_VERDICT = { correcto: ["green", "Correcto"], parcial: ["amber", "Parcialmente correcto"], incorrecto: ["red", "Incorrecto"], sin_respuesta: ["", "Sin respuesta"] };
+  const M_FIELD = { correcto: ["check", "green", "correcto"], aceptable: ["check", "amber", "defendible, pero hay una opción que ataca mejor la causa"], incorrecto: ["x", "red", "no coincide con la evidencia"], sin_respuesta: ["alert", "", "sin responder"] };
+  const M_DOT = { correcto: "m-ok", parcial: "m-part", incorrecto: "m-bad" };
+  const mentorCache = (cid) => store.get("mentor:" + cid, {});
+  function mentorBtn(item, label, prompt = "", text = "Mentor") {
+    const st = currentCase ? mentorCache(currentCase.case_id)[item] : null;
+    return `<button type="button" class="mentor-btn ${st?.best ? M_DOT[st.best] : ""}" data-mentor="${esc(item)}" data-mlabel="${esc(label)}" data-mprompt="${esc(prompt)}" title="Mentor IA: pistas y revisión de tu respuesta">${icon("lightbulb")}<span>${esc(text)}</span><i></i></button>`;
+  }
+  function mentorPaint(cid, item) {
+    const st = mentorCache(cid)[item];
+    $$(`.mentor-btn[data-mentor="${item}"]`).forEach((b) => { b.classList.remove("m-ok", "m-part", "m-bad"); if (st?.best) b.classList.add(M_DOT[st.best]); });
+  }
+  function mentorSaveStatus(cid, item, status) {
+    if (!status) return; const all = mentorCache(cid); all[item] = status; store.set("mentor:" + cid, all); mentorPaint(cid, item);
+  }
+  // Respuesta actual del equipo para el ítem (lo que ya escribió o eligió en el sitio).
+  function mentorAnswer(c, item) {
+    const cid = c.case_id;
+    if (item === "tier") { const t = store.get(cid + ":tier", {}); return { actual: t.actual || "", objetivo: t.objetivo || "", just: t.just || "" }; }
+    if (item.startsWith("calc.")) { const v = store.get(cid + ":calc", {})[item.slice(5)]; return { value: v == null ? "" : String(v) }; }
+    if (item.startsWith("inc.")) { const v = getInc(cid)[item.slice(4)] || {}; return { itil: v.itil || "", cobit: v.cobit || "", iso: v.iso || "" }; }
+    if (item.startsWith("q.")) return { text: store.get(cid + ":q", {})[item.slice(2)]?.a || "" };
+    return {};
+  }
+  const M_TAB = { tier: ["inventario", "Inventario → Clasificación Tier"], calc: ["metricas", "Métricas → Verificador de cálculos"], inc: ["incidentes", "Incidentes"], q: ["retos", "Retos → Preguntas guía"] };
+  function mentorAnswerHtml(item, a) {
+    const empty = (x) => (x ? esc(x) : `<span class="muted">sin responder</span>`);
+    if (item === "tier") return `<div class="m-ans"><span>Tier actual</span><b>${empty(a.actual)}</b><span>Tier objetivo</span><b>${empty(a.objetivo)}</b><span>Evidencia</span><b>${empty(a.just)}</b></div>`;
+    if (item.startsWith("calc.")) return `<div class="m-ans"><span>Tu resultado</span><b>${empty(a.value && a.value.replace(".", ","))}</b></div>`;
+    if (item.startsWith("inc.")) return `<div class="m-ans"><span>ITIL 4</span><b>${empty(a.itil)}</b><span>COBIT 2019</span><b>${empty(a.cobit)}</b><span>ISO 27001</span><b>${empty(a.iso)}</b></div>`;
+    return `<div class="m-ans one"><b>${a.text ? esc(a.text.length > 600 ? a.text.slice(0, 599) + "…" : a.text) : `<span class="muted">sin responder</span>`}</b></div>`;
+  }
+  const mentorChunks = (list, title) => (list || []).length ? `<h5>${icon("book")} ${title}</h5>${list.map((f) => `<details class="m-src ${f.cited ? "cited" : ""}"><summary><b>[${esc(f.id)}]</b> ${esc(f.title)} <span class="muted">· ${esc(f.framework)}</span></summary><p>${esc(f.text)}</p></details>`).join("")}` : "";
+  const mentorWhere = (where) => (where || []).length ? `<h5>${icon("search")} Dónde buscar</h5><ul class="m-list">${where.map((w) => { const t = typeof w === "string" ? { text: w } : w; return `<li>${icon("arrow")}<span>${esc(t.text)}${t.tab ? ` <button type="button" class="btn btn-sm btn-ghost" data-mgo="${esc(t.tab)}">Ir</button>` : ""}</span></li>`; }).join("")}</ul>` : "";
+
+  function openMentor(c, item, label, prompt) {
+    const cid = c.case_id, st = mentorCache(cid)[item] || {};
+    const a = mentorAnswer(c, item), tabInfo = M_TAB[item.split(".")[0]];
+    const gate = !apiBase() ? `<div class="notice">${icon("alert")}<span>El servidor del curso no está configurado: el mentor no está disponible.</span></div>`
+      : !teamSession() ? `<div class="notice info">${icon("users")}<span>Para usar el mentor ingresa con el <b>código de tu equipo</b> y tu correo institucional. <button type="button" class="btn btn-sm" data-mlogin>Ingresar</button></span></div>` : "";
+    openModal(`<div class="m-head"><div class="m-ico">${icon("lightbulb")}</div><div><div class="kick">Mentor IA · ${esc(cid)}</div><h2 id="modal-title">${esc(label)}</h2></div></div>
+      ${prompt ? `<p class="m-prompt">${linkTerms(prompt)}</p>` : ""}
+      <div class="m-sec"><h5>${icon("edit" in window.ICONS ? "edit" : "target")} Tu respuesta actual</h5>${mentorAnswerHtml(item, a)}
+        ${tabInfo && currentTab !== tabInfo[0] ? `<p class="hint">Para cambiarla ve a <button type="button" class="btn btn-sm btn-ghost" data-mgo="${tabInfo[0]}">${esc(tabInfo[1])}</button></p>` : `<p class="hint">Para cambiarla, cierra el mentor y edítala en esta pestaña.</p>`}</div>
+      ${gate}
+      <div class="m-steps" data-mitem="${esc(item)}">
+        <button type="button" class="m-step" data-mhint="1" ${gate ? "disabled" : ""}><b>1</b><span>¿Dónde busco?</span></button>
+        <button type="button" class="m-step" data-mhint="2" ${gate || (st.max_hint || 0) < 1 ? "disabled" : ""}><b>2</b><span>Dame una pista</span></button>
+        <button type="button" class="m-step" data-mhint="3" ${gate || (st.max_hint || 0) < 2 ? "disabled" : ""}><b>3</b><span>Pista más concreta</span></button>
+        <button type="button" class="m-step check" data-mcheck ${gate ? "disabled" : ""}><b>${icon("check")}</b><span>Revisar mi respuesta</span></button>
+      </div>
+      <div id="m-out"></div>
+      <p class="hint">El mentor no te da la respuesta: te ayuda a encontrarla con el expediente del caso y los marcos (ISO 27001, ITIL, COBIT, Tier). Cada pista y cada revisión quedan en el seguimiento de tu equipo.${st.checks ? ` Llevas ${st.checks} revisión(es) y ${st.hints || 0} pista(s) en este ítem.` : ""}</p>`, "#fbbf24");
+    const box = $("#modal-body");
+    box.dataset.mctx = JSON.stringify({ cid, item, label, prompt });
+  }
+
+  async function mentorCall(path, payload) {
+    const r = await fetch(apiBase() + path, { method: "POST", headers: { "Content-Type": "application/json", ...authHeaders() }, body: JSON.stringify(payload) });
+    const d = await r.json().catch(() => ({}));
+    if (r.status === 401) { teamLogout(); throw new Error("Tu sesión de equipo terminó. Ingresa de nuevo."); }
+    if (!r.ok) throw new Error(d.error || "No fue posible contactar al mentor.");
+    return d;
+  }
+  function mentorOut(html, append = true) {
+    const out = $("#m-out"); if (!out) return;
+    const el = document.createElement("div"); el.className = "m-card"; el.innerHTML = html; hydrate(el);
+    if (!append) out.innerHTML = "";
+    out.prepend(el); el.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+  async function mentorHint(btn, level) {
+    const ctx = JSON.parse($("#modal-body").dataset.mctx || "{}"); const c = byId[ctx.cid]; if (!c) return;
+    const old = btn.innerHTML; btn.disabled = true; btn.innerHTML = `<span class="spinner"></span><span>Buscando…</span>`;
+    try {
+      const d = await mentorCall("/api/mentor/hint", { case_id: ctx.cid, item: ctx.item, level, label: ctx.label, prompt: ctx.prompt, answer: mentorAnswer(c, ctx.item) });
+      mentorSaveStatus(ctx.cid, ctx.item, d.status);
+      const names = ["", "¿Dónde busco?", "Pista", "Pista concreta"];
+      mentorOut(`<div class="m-card-h"><span class="pill amber">${names[level]}</span>${d.from === "ia" ? `<span class="muted">generada por la IA con el expediente</span>` : d.from === "docente" && level > 1 ? `<span class="muted">del docente</span>` : ""}</div>
+        <p>${linkTerms(d.hint || "")}</p>${mentorWhere(level === 1 ? d.where : [])}
+        ${mentorChunks(d.evidence && level === 1 ? d.evidence : [], "Fragmentos del expediente relacionados")}${mentorChunks(d.sources, "Fuentes de los marcos")}`);
+      const next = $(`[data-mhint="${level + 1}"]`); if (next) next.disabled = false;
+    } catch (err) { toast(err.message); }
+    btn.innerHTML = old; btn.disabled = false;
+  }
+  async function mentorCheck(btn) {
+    const ctx = JSON.parse($("#modal-body").dataset.mctx || "{}"); const c = byId[ctx.cid]; if (!c) return;
+    const old = btn.innerHTML; btn.disabled = true; btn.innerHTML = `<span class="spinner"></span><span>El mentor está revisando…</span>`;
+    try {
+      const d = await mentorCall("/api/mentor/check", { case_id: ctx.cid, item: ctx.item, label: ctx.label, prompt: ctx.prompt, answer: mentorAnswer(c, ctx.item) });
+      mentorSaveStatus(ctx.cid, ctx.item, d.status);
+      const [cls, txt] = M_VERDICT[d.verdict] || ["", d.verdict || "—"];
+      mentorOut(`<div class="m-card-h"><span class="pill ${cls}">${icon(d.verdict === "correcto" ? "check" : "alert")} ${esc(txt)}</span><span class="muted">Revisión de tu respuesta</span></div>
+        ${(d.fields || []).length ? `<ul class="m-fields">${d.fields.map((f) => { const [ic, k, t] = M_FIELD[f.status] || ["alert", "", f.status]; return `<li class="${k}">${icon(ic)}<b>${esc(f.label)}</b><span>${esc(t)}</span></li>`; }).join("")}</ul>` : ""}
+        ${d.mistake ? `<div class="notice">${icon("alert")}<span>${esc(d.mistake)}</span></div>` : ""}
+        ${d.explicacion ? `<p class="m-why"><b>¿Por qué?</b> ${linkTerms(d.explicacion)}</p>` : ""}
+        ${(d.que_revisar || []).length ? `<h5>${icon("target")} Qué revisar</h5>${list(d.que_revisar, "arrow")}` : ""}
+        ${(d.evidencia || []).length ? `<h5>${icon("book")} Evidencia del caso</h5>${d.evidencia.map((e) => `<blockquote class="m-quote"><b>[${esc(e.id)}]</b> ${esc(e.cita)}</blockquote>`).join("")}` : ""}
+        ${d.siguiente_paso ? `<div class="analogy">${icon("lightbulb")}<span><b>Siguiente paso:</b> ${esc(d.siguiente_paso)}</span></div>` : ""}
+        ${d.verdict !== "correcto" ? mentorWhere(d.where) : ""}
+        ${mentorChunks(d.evidence, "Fragmentos del expediente")}${mentorChunks(d.sources, "Fuentes de los marcos (RAG)")}
+        ${!d.has_key ? `<p class="hint">Tu docente aún no ha cargado la clave de este ítem: la revisión la hizo la IA con el expediente.</p>` : ""}`);
+      if (d.verdict === "correcto") toast("¡Correcto! Quedó registrado en el seguimiento de tu equipo.");
+      if (currentCase && currentTab === "tutor") refreshMentorPanel();
+    } catch (err) { toast(err.message); }
+    btn.innerHTML = old; btn.disabled = false;
+  }
+  document.addEventListener("click", (e) => {
+    const mb = e.target.closest("[data-mentor]");
+    if (mb && currentCase) { openMentor(currentCase, mb.dataset.mentor, mb.dataset.mlabel, mb.dataset.mprompt); return; }
+    const h = e.target.closest("[data-mhint]"); if (h) { mentorHint(h, +h.dataset.mhint); return; }
+    if (e.target.closest("[data-mcheck]")) { mentorCheck(e.target.closest("[data-mcheck]")); return; }
+    if (e.target.closest("[data-mlogin]")) { openTeamModal(); return; }
+    const g = e.target.closest("[data-mgo]");
+    if (g && currentCase) { closeModal(); currentTab = g.dataset.mgo; $$(".ws-tab").forEach((b) => b.classList.toggle("on", b.dataset.tab === currentTab)); renderTab(); }
+  });
+
+  // Panel «Mentor: seguimiento de tu caso» (pestaña Tutor IA).
+  function mentorItems(c) {
+    return [["tier", "Clasificación Tier", ""], ...CALC_FIELDS.filter(([k]) => calcExpected(c)[k]).map(([k, l]) => ["calc." + k, l, ""]),
+      ...c.data.incidents.map(([id, t, txt]) => ["inc." + id, `Incidente ${id} · ${t}`, txt]), ...c.questions.map((q, i) => ["q." + i, `Pregunta guía ${i + 1}`, q])];
+  }
+  function mentorPanelHtml(c) {
+    const st = mentorCache(c.case_id), items = mentorItems(c);
+    const ok = items.filter(([k]) => st[k]?.best === "correcto").length;
+    const group = (title, pred) => `<div class="m-group"><h5>${title}</h5>${items.filter(([k]) => pred(k)).map(([k, l, p]) => { const s = st[k] || {}; const [cls] = M_VERDICT[s.best] || [""]; const txt = s.best || (s.hints ? "con pistas" : "sin revisar");
+      return `<div class="m-row"><span class="m-dot ${M_DOT[s.best] || ""}"></span><span class="m-row-l">${esc(l)}</span><span class="pill ${cls}">${esc(txt)}</span>${s.hints ? `<small class="muted">${s.hints} pista(s)</small>` : ""}${mentorBtn(k, l, p, "Abrir")}</div>`; }).join("")}</div>`;
+    return `<div class="m-prog"><b>${ok}/${items.length}</b><span>ítems resueltos</span><i><b style="width:${Math.round(ok / items.length * 100)}%"></b></i></div>
+      <div class="m-groups">${group("Tier y cálculos", (k) => k === "tier" || k.startsWith("calc."))}${group("Incidentes (ITIL · COBIT · ISO)", (k) => k.startsWith("inc."))}${group("Preguntas guía", (k) => k.startsWith("q."))}</div>`;
+  }
+  async function refreshMentorPanel() {
+    const c = currentCase, box = $("#mentor-panel"); if (!c || !box) return;
+    box.innerHTML = mentorPanelHtml(c); hydrate(box);
+    if (!apiBase() || !teamSession()) return;
+    try {
+      const r = await fetch(`${apiBase()}/api/mentor/status?case_id=${c.case_id}`, { headers: authHeaders() });
+      if (!r.ok) return;
+      const d = await r.json(); store.set("mentor:" + c.case_id, d.status || {});
+      if ($("#mentor-panel") === box) { box.innerHTML = mentorPanelHtml(c); hydrate(box); }
+      const note = $("#mentor-note"); if (note) note.innerHTML = d.key_loaded ? "" : `<span class="pill amber">El docente aún no ha cargado la clave de este caso: las revisiones las hará la IA con el expediente.</span>`;
+    } catch { /* sin conexión: se muestra lo guardado */ }
+  }
 
   /* ==================== EJERCICIOS GUIADOS (recorridos paso a paso por el sitio) ==================== */
   const TOURS = (window.GUIDE && window.GUIDE.tours) || [];
