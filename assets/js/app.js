@@ -1803,8 +1803,11 @@
   }
 
   async function mentorCall(path, payload) {
-    const r = await fetch(apiBase() + path, { method: "POST", headers: { "Content-Type": "application/json", ...authHeaders() }, body: JSON.stringify(payload) });
+    let r;
+    try { r = await fetch(apiBase() + path, { method: "POST", headers: { "Content-Type": "application/json", ...authHeaders() }, body: JSON.stringify(payload) }); }
+    catch { throw new Error("No se pudo contactar al mentor. Si el problema sigue, avisa a tu docente: puede que el servidor del curso aún no tenga el Mentor IA actualizado."); }
     const d = await r.json().catch(() => ({}));
+    if (r.status === 404) throw new Error("El servidor del curso aún no tiene el Mentor IA. Tu docente debe actualizarlo.");
     if (r.status === 401) { teamLogout(); throw new Error("Tu sesión de equipo terminó. Ingresa de nuevo."); }
     if (!r.ok) throw new Error(d.error || "No fue posible contactar al mentor.");
     return d;
