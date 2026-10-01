@@ -413,6 +413,20 @@ def item_status(db, team_id, case_id, item_id=None):
     return out
 
 
+def stored_hint(db, team_id, case_id, item_id, level):
+    """Pista ya entregada al equipo para este ítem y nivel (se reutiliza: no se vuelve a pedir ni a contar)."""
+    r = db.execute(
+        """SELECT e.response, e.created_at, m.firstname FROM mentor_events e LEFT JOIN members m ON m.id = e.member_id
+           WHERE e.team_id=? AND e.case_id=? AND e.item=? AND e.kind='hint' AND e.level=? AND e.response IS NOT NULL AND e.error IS NULL
+           ORDER BY e.id DESC LIMIT 1""", (team_id, case_id, item_id, level)).fetchone()
+    if not r:
+        return None
+    d = json.loads(r["response"])
+    if "hint" not in d:  # formato anterior: solo el texto de la pista
+        d = {"level": level, "hint": d.get("pista", ""), "where": [], "evidence": [], "sources": [], "from": "ia"}
+    return d | {"saved_at": r["created_at"], "saved_by": r["firstname"] or ""}
+
+
 def body_args():
     body = request.get_json(silent=True) or {}
     case_id = clip(body.get("case_id"), 8)
@@ -433,6 +447,9 @@ def mentor_hint():
         return err
     level = max(1, min(3, int(body.get("level") or 1)))
     db = get_db()
+    prev = stored_hint(db, st["id"], case_id, item_id, level)
+    if prev:
+        return jsonify(prev | {"cached": True, "status": item_status(db, st["id"], case_id, item_id).get(item_id)})
     item, reference, has_key = resolve_item(db, case_id, item_id, body)
     answer = clean_answer(item["kind"], body.get("answer"))
     case_hits, fw_hits = retrieve(case_id, item, json.dumps(answer, ensure_ascii=False))
@@ -440,14 +457,15 @@ def mentor_hint():
 
     if level == 1:
         out["hint"] = "Empieza por aquí: revisa estos lugares del sitio y los fragmentos del expediente que más se relacionan con este ítem."
-        log_event(db, st, case_id, item_id, "hint", level=1)
+        log_event(db, st, case_id, item_id, "hint", level=1, response=dict(out))
         out["status"] = item_status(db, st["id"], case_id, item_id).get(item_id)
         return jsonify(out)
 
     teacher_hints = [h for h in (item.get("hints") or []) if str(h).strip()]
     if len(teacher_hints) >= level - 1:
         out["hint"] = teacher_hints[level - 2]
-        log_event(db, st, case_id, item_id, "hint", level=level)
+        out["evidence"] = []
+        log_event(db, st, case_id, item_id, "hint", level=level, response=dict(out))
         out["status"] = item_status(db, st["id"], case_id, item_id).get(item_id)
         return jsonify(out)
 
@@ -469,7 +487,8 @@ def mentor_hint():
     out.update(hint=clip(obj.get("pista"), 1200), cited=obj.get("evidencia") or [])
     out["from"] = "ia"
     out["sources"] = [public_chunk(c) for c in fw_hits if c["id"] in set(obj.get("fuentes") or [])] or [public_chunk(c) for c in fw_hits[:2]]
-    log_event(db, st, case_id, item_id, "hint", level=level, response={"pista": out["hint"]}, llm=True, tin=tin, tout=tout)
+    out["evidence"] = []
+    log_event(db, st, case_id, item_id, "hint", level=level, response=dict(out), llm=True, tin=tin, tout=tout)
     out["status"] = item_status(db, st["id"], case_id, item_id).get(item_id)
     return jsonify(out)
 
@@ -532,10 +551,29 @@ def mentor_check():
                                  "incorrecto": "Tu respuesta no coincide con la evidencia del caso. Pide una pista o revisa los lugares sugeridos.",
                                  "sin_respuesta": "Completa todos los campos antes de pedir la revisión."}.get(result["verdict"], "")
     log_event(db, st, case_id, item_id, "check", verdict=result["verdict"] if result["verdict"] in RANK else None, answer=answer,
-              response={k: result.get(k) for k in ("verdict", "fields", "mistake", "explicacion", "que_revisar", "siguiente_paso")},
+              response=dict(result),
               llm=use_llm and not errtxt, tin=tin, tout=tout, err=errtxt)
     result["status"] = item_status(db, st["id"], case_id, item_id).get(item_id)
     return jsonify(result)
+
+
+@bp.get("/api/mentor/item")
+def mentor_item():
+    """Lo que el equipo ya obtuvo en un ítem: pistas entregadas y su última revisión."""
+    st, err = require_student()
+    if err:
+        return err
+    case_id, item_id = clip(request.args.get("case_id"), 8), clip(request.args.get("item"), 20)
+    if case_id not in CASES or not ITEM_RE.match(item_id):
+        return jsonify(error="Ítem no válido."), 400
+    db = get_db()
+    hints = [h for h in (stored_hint(db, st["id"], case_id, item_id, lv) for lv in (1, 2, 3)) if h]
+    r = db.execute(
+        """SELECT e.response, e.answer, e.created_at, m.firstname FROM mentor_events e LEFT JOIN members m ON m.id = e.member_id
+           WHERE e.team_id=? AND e.case_id=? AND e.item=? AND e.kind='check' AND e.response IS NOT NULL
+           ORDER BY e.id DESC LIMIT 1""", (st["id"], case_id, item_id)).fetchone()
+    last = (json.loads(r["response"]) | {"saved_at": r["created_at"], "saved_by": r["firstname"] or "", "answer": json.loads(r["answer"] or "null")}) if r else None
+    return jsonify(hints=hints, last_check=last, status=item_status(db, st["id"], case_id, item_id).get(item_id))
 
 
 @bp.get("/api/mentor/status")

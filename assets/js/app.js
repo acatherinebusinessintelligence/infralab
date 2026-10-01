@@ -1780,26 +1780,82 @@
   const mentorChunks = (list, title) => (list || []).length ? `<h5>${icon("book")} ${title}</h5>${list.map((f) => `<details class="m-src ${f.cited ? "cited" : ""}"><summary><b>[${esc(f.id)}]</b> ${esc(f.title)} <span class="muted">· ${esc(f.framework)}</span></summary><p>${esc(f.text)}</p></details>`).join("")}` : "";
   const mentorWhere = (where) => (where || []).length ? `<h5>${icon("search")} Dónde buscar</h5><ul class="m-list">${where.map((w) => { const t = typeof w === "string" ? { text: w } : w; return `<li>${icon("arrow")}<span>${esc(t.text)}${t.tab ? ` <button type="button" class="btn btn-sm btn-ghost" data-mgo="${esc(t.tab)}">Ir</button>` : ""}</span></li>`; }).join("")}</ul>` : "";
 
+  // Memoria del ítem: pistas ya entregadas al equipo y su última revisión (el servidor es la fuente; aquí una copia local).
+  const mKey = (cid, item) => `mentorlog:${cid}:${item}`;
+  const mMem = (cid, item) => store.get(mKey(cid, item), { hints: {}, last: null });
+  const mSaveMem = (cid, item, mem) => store.set(mKey(cid, item), mem);
+  const H_NAMES = ["", "¿Dónde busco?", "Pista", "Pista concreta"];
+  const H_BTN = ["", "¿Dónde busco?", "Dame una pista", "Pista más concreta"];
+  const savedNote = (d) => d.saved_at ? `<span class="muted">guardada ${esc(new Date(d.saved_at).toLocaleString("es-CO", { dateStyle: "short", timeStyle: "short" }))}${d.saved_by ? ` · la pidió ${esc(d.saved_by)}` : ""}</span>` : "";
+  function hintCardHtml(level, d) {
+    return `<div class="m-card-h"><span class="pill amber">${H_NAMES[level]}</span>${d.from === "ia" ? `<span class="muted">generada por la IA con el expediente</span>` : d.from === "docente" && level > 1 ? `<span class="muted">del docente</span>` : ""}${savedNote(d)}</div>
+      <p>${linkTerms(d.hint || "")}</p>${mentorWhere(level === 1 ? d.where : [])}
+      ${mentorChunks(level === 1 ? d.evidence : [], "Fragmentos del expediente relacionados")}${mentorChunks(d.sources, "Fuentes de los marcos")}`;
+  }
+  function checkCardHtml(d) {
+    const [cls, txt] = M_VERDICT[d.verdict] || ["", d.verdict || "—"];
+    return `<div class="m-card-h"><span class="pill ${cls}">${icon(d.verdict === "correcto" ? "check" : "alert")} ${esc(txt)}</span><span class="muted">Última revisión de tu respuesta</span>${savedNote(d)}</div>
+      ${(d.fields || []).length ? `<ul class="m-fields">${d.fields.map((f) => { const [ic, k, t] = M_FIELD[f.status] || ["alert", "", f.status]; return `<li class="${k}">${icon(ic)}<b>${esc(f.label)}</b><span>${esc(t)}</span></li>`; }).join("")}</ul>` : ""}
+      ${d.mistake ? `<div class="notice">${icon("alert")}<span>${esc(d.mistake)}</span></div>` : ""}
+      ${d.explicacion ? `<p class="m-why"><b>¿Por qué?</b> ${linkTerms(d.explicacion)}</p>` : ""}
+      ${(d.que_revisar || []).length ? `<h5>${icon("target")} Qué revisar</h5>${list(d.que_revisar, "arrow")}` : ""}
+      ${(d.evidencia || []).length ? `<h5>${icon("book")} Evidencia del caso</h5>${d.evidencia.map((e) => `<blockquote class="m-quote"><b>[${esc(e.id)}]</b> ${esc(e.cita)}</blockquote>`).join("")}` : ""}
+      ${d.siguiente_paso ? `<div class="analogy">${icon("lightbulb")}<span><b>Siguiente paso:</b> ${esc(d.siguiente_paso)}</span></div>` : ""}
+      ${d.verdict !== "correcto" ? mentorWhere(d.where) : ""}
+      ${mentorChunks(d.evidence, "Fragmentos del expediente")}${mentorChunks(d.sources, "Fuentes de los marcos (RAG)")}
+      ${d.has_key === false ? `<p class="hint">Tu docente aún no ha cargado la clave de este ítem: la revisión la hizo la IA con el expediente.</p>` : ""}`;
+  }
+  // Pinta las pistas guardadas y la última revisión, y ajusta los botones (lo ya obtenido no se vuelve a pedir).
+  function mentorRenderMem(cid, item) {
+    const box = $("#modal-body"); if (!box || !box.dataset.mctx || JSON.parse(box.dataset.mctx).item !== item) return;
+    const mem = mMem(cid, item), gated = !!$(".m-gate", box);
+    const card = (html, id) => `<div class="m-card" ${id ? `id="${id}"` : ""}>${html}</div>`;
+    $("#m-check").innerHTML = mem.last ? card(checkCardHtml(mem.last)) : "";
+    $("#m-hints").innerHTML = [1, 2, 3].filter((l) => mem.hints[l]).map((l) => card(hintCardHtml(l, mem.hints[l]), "m-h" + l)).join("");
+    hydrate($("#m-check")); hydrate($("#m-hints"));
+    [1, 2, 3].forEach((l) => {
+      const b = $(`[data-mhint="${l}"]`, box); if (!b) return;
+      const have = !!mem.hints[l];
+      b.classList.toggle("done", have);
+      b.disabled = gated || (!have && l > 1 && !mem.hints[l - 1]);
+      $("span", b).textContent = H_BTN[l] + (have ? " ✓" : "");
+    });
+    const n = Object.keys(mem.hints).length;
+    $("#m-memo").textContent = n || mem.last ? `Tu equipo ya tiene ${n} pista(s) guardada(s)${mem.last ? " y una revisión" : ""} en este ítem: se muestran aquí sin volver a pedirlas.` : "";
+  }
+  async function mentorLoadMem(cid, item) {
+    if (!apiBase() || !teamSession()) return;
+    try {
+      const r = await fetch(`${apiBase()}/api/mentor/item?case_id=${cid}&item=${encodeURIComponent(item)}`, { headers: authHeaders() });
+      if (!r.ok) return;
+      const d = await r.json(); const mem = { hints: {}, last: d.last_check || null };
+      (d.hints || []).forEach((h) => { mem.hints[h.level] = h; });
+      mSaveMem(cid, item, mem); mentorSaveStatus(cid, item, d.status); mentorRenderMem(cid, item);
+    } catch { /* sin conexión: se muestra la copia local */ }
+  }
+
   function openMentor(c, item, label, prompt) {
-    const cid = c.case_id, st = mentorCache(cid)[item] || {};
+    const cid = c.case_id;
     const a = mentorAnswer(c, item), tabInfo = M_TAB[item.split(".")[0]];
-    const gate = !apiBase() ? `<div class="notice">${icon("alert")}<span>El servidor del curso no está configurado: el mentor no está disponible.</span></div>`
-      : !teamSession() ? `<div class="notice info">${icon("users")}<span>Para usar el mentor ingresa con el <b>código de tu equipo</b> y tu correo institucional. <button type="button" class="btn btn-sm" data-mlogin>Ingresar</button></span></div>` : "";
+    const gate = !apiBase() ? `<div class="notice m-gate">${icon("alert")}<span>El servidor del curso no está configurado: el mentor no está disponible.</span></div>`
+      : !teamSession() ? `<div class="notice info m-gate">${icon("users")}<span>Para usar el mentor ingresa con el <b>código de tu equipo</b> y tu correo institucional. <button type="button" class="btn btn-sm" data-mlogin>Ingresar</button></span></div>` : "";
     openModal(`<div class="m-head"><div class="m-ico">${icon("lightbulb")}</div><div><div class="kick">Mentor IA · ${esc(cid)}</div><h2 id="modal-title">${esc(label)}</h2></div></div>
       ${prompt ? `<p class="m-prompt">${linkTerms(prompt)}</p>` : ""}
       <div class="m-sec"><h5>${icon("edit" in window.ICONS ? "edit" : "target")} Tu respuesta actual</h5>${mentorAnswerHtml(item, a)}
         ${tabInfo && currentTab !== tabInfo[0] ? `<p class="hint">Para cambiarla ve a <button type="button" class="btn btn-sm btn-ghost" data-mgo="${tabInfo[0]}">${esc(tabInfo[1])}</button></p>` : `<p class="hint">Para cambiarla, cierra el mentor y edítala en esta pestaña.</p>`}</div>
       ${gate}
       <div class="m-steps" data-mitem="${esc(item)}">
-        <button type="button" class="m-step" data-mhint="1" ${gate ? "disabled" : ""}><b>1</b><span>¿Dónde busco?</span></button>
-        <button type="button" class="m-step" data-mhint="2" ${gate || (st.max_hint || 0) < 1 ? "disabled" : ""}><b>2</b><span>Dame una pista</span></button>
-        <button type="button" class="m-step" data-mhint="3" ${gate || (st.max_hint || 0) < 2 ? "disabled" : ""}><b>3</b><span>Pista más concreta</span></button>
+        <button type="button" class="m-step" data-mhint="1"><b>1</b><span>${H_BTN[1]}</span></button>
+        <button type="button" class="m-step" data-mhint="2"><b>2</b><span>${H_BTN[2]}</span></button>
+        <button type="button" class="m-step" data-mhint="3"><b>3</b><span>${H_BTN[3]}</span></button>
         <button type="button" class="m-step check" data-mcheck ${gate ? "disabled" : ""}><b>${icon("check")}</b><span>Revisar mi respuesta</span></button>
       </div>
-      <div id="m-out"></div>
-      <p class="hint">El mentor no te da la respuesta: te ayuda a encontrarla con el expediente del caso y los marcos (ISO 27001, ITIL, COBIT, Tier). Cada pista y cada revisión quedan en el seguimiento de tu equipo.${st.checks ? ` Llevas ${st.checks} revisión(es) y ${st.hints || 0} pista(s) en este ítem.` : ""}</p>`, "#fbbf24");
-    const box = $("#modal-body");
-    box.dataset.mctx = JSON.stringify({ cid, item, label, prompt });
+      <p class="hint m-memo" id="m-memo"></p>
+      <div id="m-out"><div id="m-check"></div><div id="m-hints"></div></div>
+      <p class="hint">El mentor no te da la respuesta: te ayuda a encontrarla con el expediente del caso y los marcos (ISO 27001, ITIL, COBIT, Tier). Las pistas que obtiene tu equipo quedan guardadas: cualquier integrante las ve al abrir este ítem.</p>`, "#fbbf24");
+    $("#modal-body").dataset.mctx = JSON.stringify({ cid, item, label, prompt });
+    mentorRenderMem(cid, item);
+    mentorLoadMem(cid, item);
   }
 
   async function mentorCall(path, payload) {
@@ -1812,23 +1868,17 @@
     if (!r.ok) throw new Error(d.error || "No fue posible contactar al mentor.");
     return d;
   }
-  function mentorOut(html, append = true) {
-    const out = $("#m-out"); if (!out) return;
-    const el = document.createElement("div"); el.className = "m-card"; el.innerHTML = html; hydrate(el);
-    if (!append) out.innerHTML = "";
-    out.prepend(el); el.scrollIntoView({ behavior: "smooth", block: "nearest" });
-  }
+  const mFlash = (el) => { if (!el) return; el.scrollIntoView({ behavior: "smooth", block: "nearest" }); el.classList.remove("flash"); void el.offsetWidth; el.classList.add("flash"); };
   async function mentorHint(btn, level) {
     const ctx = JSON.parse($("#modal-body").dataset.mctx || "{}"); const c = byId[ctx.cid]; if (!c) return;
+    if (mMem(ctx.cid, ctx.item).hints[level]) return mFlash($("#m-h" + level)); // ya la tiene el equipo: no se vuelve a pedir
     const old = btn.innerHTML; btn.disabled = true; btn.innerHTML = `<span class="spinner"></span><span>Buscando…</span>`;
     try {
       const d = await mentorCall("/api/mentor/hint", { case_id: ctx.cid, item: ctx.item, level, label: ctx.label, prompt: ctx.prompt, answer: mentorAnswer(c, ctx.item) });
       mentorSaveStatus(ctx.cid, ctx.item, d.status);
-      const names = ["", "¿Dónde busco?", "Pista", "Pista concreta"];
-      mentorOut(`<div class="m-card-h"><span class="pill amber">${names[level]}</span>${d.from === "ia" ? `<span class="muted">generada por la IA con el expediente</span>` : d.from === "docente" && level > 1 ? `<span class="muted">del docente</span>` : ""}</div>
-        <p>${linkTerms(d.hint || "")}</p>${mentorWhere(level === 1 ? d.where : [])}
-        ${mentorChunks(d.evidence && level === 1 ? d.evidence : [], "Fragmentos del expediente relacionados")}${mentorChunks(d.sources, "Fuentes de los marcos")}`);
-      const next = $(`[data-mhint="${level + 1}"]`); if (next) next.disabled = false;
+      const mem = mMem(ctx.cid, ctx.item); mem.hints[level] = { ...d, saved_at: d.saved_at || new Date().toISOString() }; mSaveMem(ctx.cid, ctx.item, mem);
+      btn.innerHTML = old; mentorRenderMem(ctx.cid, ctx.item); mFlash($("#m-h" + level));
+      return;
     } catch (err) { toast(err.message); }
     btn.innerHTML = old; btn.disabled = false;
   }
@@ -1838,17 +1888,8 @@
     try {
       const d = await mentorCall("/api/mentor/check", { case_id: ctx.cid, item: ctx.item, label: ctx.label, prompt: ctx.prompt, answer: mentorAnswer(c, ctx.item) });
       mentorSaveStatus(ctx.cid, ctx.item, d.status);
-      const [cls, txt] = M_VERDICT[d.verdict] || ["", d.verdict || "—"];
-      mentorOut(`<div class="m-card-h"><span class="pill ${cls}">${icon(d.verdict === "correcto" ? "check" : "alert")} ${esc(txt)}</span><span class="muted">Revisión de tu respuesta</span></div>
-        ${(d.fields || []).length ? `<ul class="m-fields">${d.fields.map((f) => { const [ic, k, t] = M_FIELD[f.status] || ["alert", "", f.status]; return `<li class="${k}">${icon(ic)}<b>${esc(f.label)}</b><span>${esc(t)}</span></li>`; }).join("")}</ul>` : ""}
-        ${d.mistake ? `<div class="notice">${icon("alert")}<span>${esc(d.mistake)}</span></div>` : ""}
-        ${d.explicacion ? `<p class="m-why"><b>¿Por qué?</b> ${linkTerms(d.explicacion)}</p>` : ""}
-        ${(d.que_revisar || []).length ? `<h5>${icon("target")} Qué revisar</h5>${list(d.que_revisar, "arrow")}` : ""}
-        ${(d.evidencia || []).length ? `<h5>${icon("book")} Evidencia del caso</h5>${d.evidencia.map((e) => `<blockquote class="m-quote"><b>[${esc(e.id)}]</b> ${esc(e.cita)}</blockquote>`).join("")}` : ""}
-        ${d.siguiente_paso ? `<div class="analogy">${icon("lightbulb")}<span><b>Siguiente paso:</b> ${esc(d.siguiente_paso)}</span></div>` : ""}
-        ${d.verdict !== "correcto" ? mentorWhere(d.where) : ""}
-        ${mentorChunks(d.evidence, "Fragmentos del expediente")}${mentorChunks(d.sources, "Fuentes de los marcos (RAG)")}
-        ${!d.has_key ? `<p class="hint">Tu docente aún no ha cargado la clave de este ítem: la revisión la hizo la IA con el expediente.</p>` : ""}`);
+      const mem = mMem(ctx.cid, ctx.item); mem.last = { ...d, saved_at: new Date().toISOString() }; mSaveMem(ctx.cid, ctx.item, mem);
+      mentorRenderMem(ctx.cid, ctx.item); mFlash($("#m-check .m-card"));
       if (d.verdict === "correcto") toast("¡Correcto! Quedó registrado en el seguimiento de tu equipo.");
       if (currentCase && currentTab === "tutor") refreshMentorPanel();
     } catch (err) { toast(err.message); }

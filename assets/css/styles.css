@@ -899,3 +899,10 @@ table.rubric.inv { min-width: 640px; }
   .h4-r { margin-left: 0; }
   .m-row .pill { display: none; }
 }
+.m-step.done { border-color: rgba(251,191,36,.6); background: rgba(251,191,36,.12); }
+.m-step.done b { background: var(--amber); color: #1a1405; }
+#m-out > div { display: grid; gap: 12px; }
+#m-out { gap: 12px; }
+.m-memo:empty { display: none; }
+.m-card.flash { animation: mflash 1.2s ease; }
+@keyframes mflash { 0% { box-shadow: 0 0 0 0 rgba(251,191,36,.7); } 100% { box-shadow: 0 0 0 14px rgba(251,191,36,0); } }
