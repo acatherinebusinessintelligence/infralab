@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>InfraLab · Taller guiado (versión imprimible)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    @page { size: letter; margin: 16mm 16mm 18mm; }
+    :root { --ink: #0f172a; --muted: #556070; --accent: #0e7490; --line: #cbd5e1; --warn: #fff4e5; --warnb: #f59e0b; }
+    * { box-sizing: border-box; }
+    body { margin: 0; color: var(--ink); background: #f1f5f9; font: 11pt/1.5 "Inter", Calibri, Arial, sans-serif; }
+    .sheet { max-width: 820px; margin: 0 auto; padding: 24px 28px 60px; background: #fff; }
+    h1, h2, h3 { font-family: "Space Grotesk", "Inter", sans-serif; line-height: 1.2; margin: 0 0 8px; }
+    h1 { font-size: 30pt; } h2 { font-size: 18pt; color: var(--ink); } h3 { font-size: 12pt; }
+    .brand { color: var(--accent); font: 700 14pt "Space Grotesk", sans-serif; }
+    .sub { color: var(--muted); font-size: 13pt; border-bottom: 3px solid var(--accent); padding-bottom: 12px; }
+    .cover { min-height: 92vh; display: flex; flex-direction: column; justify-content: center; }
+    .kick { color: var(--accent); font: 700 9pt "Inter", sans-serif; letter-spacing: .1em; text-transform: uppercase; margin: 14px 0 4px; }
+    .meta { color: var(--muted); font-size: 9.5pt; margin-bottom: 8px; }
+    table { width: 100%; border-collapse: collapse; margin: 6px 0 12px; font-size: 10pt; }
+    th, td { border: 1px solid var(--line); padding: 6px 8px; text-align: left; vertical-align: top; }
+    th { background: var(--accent); color: #fff; font-weight: 600; }
+    td.lab { background: #e6f4f8; font-weight: 600; width: 34%; }
+    .fill td { height: 50px; }
+    table.tools { font-size: 9pt; } table.tools th { background: #155e75; }
+    .notes { border: 1px solid var(--line); border-radius: 8px; height: 90px; margin-bottom: 8px; }
+    .notes.small { height: 70px; }
+    .attempt { background: var(--warn); border: 1px solid var(--warnb); border-radius: 8px; padding: 10px 14px; font-style: italic; }
+    .attempt b { font-style: normal; color: #b42318; display: block; margin-bottom: 4px; }
+    .lines div { border-bottom: 1px solid #bbb; height: 26px; }
+    ul { margin: 4px 0 8px; padding-left: 20px; }
+    .checks { list-style: none; padding-left: 0; }
+    .checks li::before { content: "☐  "; font-size: 12pt; }
+    .step { break-before: page; page-break-before: always; padding-top: 4px; }
+    .annex { break-before: page; page-break-before: always; }
+    .annex p { margin: 4px 0; }
+    .noprint { position: sticky; top: 0; background: #0f172a; color: #fff; padding: 10px 16px; display: flex; gap: 10px; align-items: center; justify-content: center; z-index: 2; font-size: 10.5pt; }
+    .noprint a, .noprint button { color: #0f172a; background: #22d3ee; border: 0; border-radius: 999px; padding: 6px 14px; font: 600 10pt "Inter", sans-serif; cursor: pointer; text-decoration: none; }
+    @media print { body { background: #fff; } .sheet { padding: 0; max-width: none; } .noprint { display: none; } }
+  </style>
+</head>
+<body>
+  <div class="noprint">Versión imprimible del taller guiado ·
+    <button onclick="window.print()">Imprimir / Guardar como PDF</button>
+    <a href="assets/docs/InfraLab_Taller_Guiado.docx">Descargar Word</a>
+    <a href="index.html#taller">Volver al sitio</a>
+  </div>
+  <main class="sheet" id="doc"></main>
+  <script src="assets/js/guide.js?v=bfc16064"></script>
+  <script>
+    (function () {
+      const g = window.GUIDE, esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+      if (new URLSearchParams(location.search).get("print")) document.querySelector(".noprint").remove();
+      let h = `<section class="cover"><div class="brand">InfraLab</div><h1>${esc(g.title)}</h1><p class="sub">${esc(g.subtitle)}</p>
+        <table>${["Integrantes del equipo", "Grupo / NRC", "Caso asignado", "Fecha"].map((l) => `<tr><td class="lab">${l}</td><td style="height:38px"></td></tr>`).join("")}</table></section>
+        <section><h2>Cómo usar este taller</h2>${g.intro.map((p) => `<p>${esc(p)}</p>`).join("")}<ol>${g.how.map((s) => `<li>${esc(s)}</li>`).join("")}</ol>
+        <h2 style="margin-top:18px">Las diez etapas</h2><table><tr><th>Etapa</th><th>Para qué sirve</th><th>Caso de ejemplo</th></tr>
+        ${g.steps.map((s) => `<tr><td><b>${s.id}. ${esc(s.title)}</b></td><td>${esc(s.discover)}</td><td>${esc(s.case_label)}</td></tr>`).join("")}</table></section>
+        <section class="step"><h2>Herramientas del sitio que usarás</h2><p class="meta">Todas están en el sitio InfraLab. En cada hoja «Tu turno» se indica cuál usar, qué hacer y qué trampa evitar.</p>
+        <table><tr><th>Herramienta</th><th>Qué es</th><th>Para qué la usas</th><th>Etapas</th></tr>
+        ${(g.toolkit || []).map((k) => `<tr><td><b>${esc(k.name)}</b></td><td>${esc(k.what)}</td><td>${esc(k.use)}</td><td>${k.steps.length === g.steps.length ? "Todas" : k.steps.join(", ")}</td></tr>`).join("")}</table></section>`;
+      const TK = Object.fromEntries((g.toolkit || []).map((k) => [k.id, k]));
+      const TR = Object.fromEntries((g.tours || []).map((k) => [k.id, k]));
+      const base = (g.site_url || "").trim();
+      const turl = (id) => (base ? base.replace(/\/?$/, "/") : "") + "index.html#guia/" + id;
+      if ((g.tours || []).length) h += `<section class="step"><h2>Paso 1 · Ejercicios guiados en la web</h2>
+        <p class="meta">Hazlos antes de las etapas. Abre el enlace: el sitio resalta dónde hacer clic, comprueba cada acción y al final te explica qué encontraste. Luego repite lo mismo con tu caso.</p>
+        ${g.tours.map((k, n) => `<h3 style="margin-top:12px">Ejercicio ${n + 1} · ${esc(k.title)} (${k.minutes} min · ${esc(k.group || "")})</h3>
+          <p style="margin:2px 0"><b>Enlace:</b> <a href="${turl(k.id)}">${esc(turl(k.id))}</a></p><p style="margin:2px 0"><b>Para qué:</b> ${esc(k.purpose)}</p>
+          <ol style="margin:4px 0;font-size:9.5pt">${k.steps.map((s) => `<li>${esc(s.t)}</li>`).join("")}</ol><p style="margin:2px 0"><b>Tu turno:</b> ${esc(k.yours)}</p>`).join("")}</section>`;
+      g.steps.forEach((s) => {
+        h += `<section class="step"><div class="kick">Etapa ${s.id} de ${g.steps.length}</div><h2>${esc(s.title)}</h2>
+          <div class="meta">Caso de ejemplo: ${esc(s.case_label)} · En el sitio: ${esc(s.tab)}</div>
+          ${(s.tours || []).length ? `<p style="margin:6px 0"><b style="color:var(--accent)">Empieza por los ejercicios guiados en la web:</b> ${s.tours.map((id) => `<a href="${turl(id)}">${esc(TR[id].title)}</a>`).join(" · ")}</p>` : ""}
+          <div class="kick">Para qué sirve</div><p>${esc(s.purpose)}</p><p><b>Lo que vas a descubrir:</b> ${esc(s.discover)}</p>
+          <div class="kick">Qué haces</div><ul>${s.activities.map((a) => `<li>${esc(a)}</li>`).join("")}</ul>
+          <div class="kick">Detecta los errores · ${esc(s.case_label)}</div>
+          <div class="attempt"><b>Intento de un equipo (contiene ${s.errors.length} errores). Encuéntralos antes de leer la clave del anexo.</b>${s.attempt.map((l) => `<div>${esc(l)}</div>`).join("")}</div>
+          <p style="margin:8px 0 2px">Errores que encontramos:</p><div class="lines">${s.errors.map(() => "<div></div>").join("")}</div>
+          <div class="kick">Autoverificación</div><ul class="checks">${s.checks.map((c) => `<li>${esc(c)}</li>`).join("")}</ul>
+          <p class="meta" style="margin-top:10px">➜ Continúa en la hoja de trabajo «Tu turno» (página siguiente).</p></section>
+          <section class="step"><div class="kick">Etapa ${s.id} · Hoja de trabajo</div><h2>Tu turno: ${esc(s.title)}</h2>
+          <div class="meta">Aplica esta etapa a tu caso. Recuerda: problema → evidencia → impacto → decisión → métrica.</div>
+          <div class="kick">Herramientas del sitio para esta etapa</div>
+          <table class="tools"><tr><th>Herramienta</th><th>Qué haces</th><th>Trampa a evitar</th></tr>${(s.tools || []).map((x) => `<tr><td><b>${esc((TK[x.tool] || {}).name || x.tool)}</b></td><td>${esc(x.do)}</td><td>${esc(x.trap)}</td></tr>`).join("")}</table>
+          <table class="fill"><thead><tr>${s.worksheet.cols.map((c) => `<th>${esc(c)}</th>`).join("")}</tr></thead><tbody>${Array.from({ length: s.worksheet.rows }, () => `<tr>${s.worksheet.cols.map(() => "<td></td>").join("")}</tr>`).join("")}</tbody></table>
+          <div class="kick">Evidencia del caso que usamos (dato, página o pestaña del sitio)</div><div class="notes"></div>
+          <div class="kick">¿Para qué nos sirvió esta etapa? ¿Qué cambia en las siguientes?</div><div class="notes small"></div></section>`;
+      });
+      h += `<section class="annex"><h2>Anexo · Clave de errores</h2><p><i>Léela después de intentar cada ejercicio. Explica qué está mal y qué revisar; no entrega la solución del caso.</i></p>
+        ${g.steps.map((s) => `<h3 style="margin-top:12px">Etapa ${s.id} · ${esc(s.title)} (${esc(s.case_label)})</h3>${s.errors.map((e, i) => `<p><b>${i + 1}. ${esc(e.e)}</b> ${esc(e.why)}</p>`).join("")}`).join("")}</section>`;
+      document.getElementById("doc").innerHTML = h;
+    })();
+  </script>
+</body>
+</html>
